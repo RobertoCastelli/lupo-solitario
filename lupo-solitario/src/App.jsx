@@ -1,71 +1,62 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
+const DEFAULT_SHEET = {
+  cs: 0,
+  ep: 0,
+  gold: 0,
+  meals: 0,
+  weapons: [],
+  schermaWeapon: null,
+  disciplines: [],
+  backpack: [],
+  specialItems: [],
+  setup: {
+    csSet: false,
+    epSet: false,
+    goldSet: false,
+    weaponsSet: false,
+  },
+};
+
+const KAI_DISCIPLINES = [
+  "Mimetismo",
+  "Caccia",
+  "Sesto Senso",
+  "Orientamento",
+  "Guarigione",
+  "Scherma",
+  "Psicoschermo",
+  "Psicolaser",
+  "Affinità Animale",
+  "Telecinesi",
+];
+
+const WEAPONS = [
+  "Pugnale",
+  "Lancia",
+  "Daga",
+  "Mazza",
+  "Martello da Guerra",
+  "Spada",
+  "Ascia",
+  "Spada",
+  "Asta",
+  "Spadone",
+];
 
 function App() {
-  // 🎲 Dice roll state
+  console.log("App component rendering");
   const [diceRoll, setDiceRoll] = useState(null);
   const [backpackInput, setBackpackInput] = useState("");
   const [backpackSpecialInput, setBackpackSpecialInput] = useState("");
+  const [characterSheet, setCharacterSheet] = useState(DEFAULT_SHEET);
 
-  // Character sheet state
-  const [characterSheet, setCharacterSheet] = useState(() => {
-    const saved = localStorage.getItem("lw_characterSheet");
-    return saved
-      ? JSON.parse(saved)
-      : {
-          cs: 0,
-          ep: 0,
-          gold: 0,
-          meals: 0,
-          weapons: [],
-          schermaWeapon: null,
-          disciplines: [],
-          backpack: [],
-          specialItems: [],
-          setup: {
-            csSet: false,
-            epSet: false,
-            goldSet: false,
-            weaponsSet: false,
-          },
-        };
-  });
-
-  useEffect(() => {
-    localStorage.setItem("lw_characterSheet", JSON.stringify(characterSheet));
-  }, [characterSheet]);
-
-  const KAI_DISCIPLINES = [
-    "Mimetismo",
-    "Caccia",
-    "Sesto Senso",
-    "Orientamento",
-    "Guarigione",
-    "Scherma",
-    "Psicoschermo",
-    "Psicolaser",
-    "Affinità Animale",
-    "Telecinesi",
-  ];
-
-  const WEAPONS = [
-    "Pugnale",
-    "Lancia",
-    "Daga",
-    "Mazza",
-    "Martello da Guerra",
-    "Spada",
-    "Ascia",
-    "Spada",
-    "Asta",
-    "Spadone",
-  ];
-
-  function roll() {
-    return Math.floor(Math.random() * 10);
+  function roll(max = 10) {
+    return Math.floor(Math.random() * max);
   }
 
   function rollDice() {
-    const rollValue = roll();
+    const rollValue = roll(10);
     setDiceRoll(rollValue);
   }
 
@@ -103,7 +94,7 @@ function App() {
   }
 
   function setInitialCs() {
-    const initialCs = roll() + 10;
+    const initialCs = roll(10) + 11;
     setCharacterSheet((prev) => ({
       ...prev,
       cs: initialCs,
@@ -112,7 +103,7 @@ function App() {
   }
 
   function setInitialEp() {
-    const initialEp = roll() + 20;
+    const initialEp = roll(10) + 21;
     setCharacterSheet((prev) => ({
       ...prev,
       ep: initialEp,
@@ -120,8 +111,8 @@ function App() {
     }));
   }
 
-  function setInitalGold() {
-    const initialGold = roll();
+  function setInitialGold() {
+    const initialGold = roll(10);
     setCharacterSheet((prev) => ({
       ...prev,
       gold: initialGold,
@@ -130,7 +121,7 @@ function App() {
   }
 
   function setInitialWeapons() {
-    const weapon = WEAPONS[roll()];
+    const weapon = WEAPONS[roll(WEAPONS.length)];
     setCharacterSheet((prev) => ({
       ...prev,
       weapons: [weapon],
@@ -209,7 +200,7 @@ function App() {
         return {
           ...prev,
           disciplines: [...prev.disciplines, discipline],
-          schermaWeapon: WEAPONS[roll()],
+          schermaWeapon: WEAPONS[roll(WEAPONS.length)],
         };
       }
 
@@ -260,7 +251,7 @@ function App() {
           <li>
             💰 Corone d'oro: {characterSheet.gold} / 50{" "}
             <button
-              onClick={setInitalGold}
+              onClick={setInitialGold}
               disabled={characterSheet.setup.goldSet}
             >
               set initial gold
