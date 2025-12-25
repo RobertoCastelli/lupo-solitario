@@ -61,24 +61,7 @@ function App() {
   }
 
   function resetInitialSetup() {
-    setCharacterSheet((prev) => ({
-      ...prev,
-      cs: 0,
-      ep: 0,
-      gold: 0,
-      meals: 0,
-      weapons: [],
-      schermaWeapon: null,
-      disciplines: [],
-      backpack: [],
-      specialItems: [],
-      setup: {
-        csSet: false,
-        epSet: false,
-        goldSet: false,
-        weaponsSet: false,
-      },
-    }));
+    setCharacterSheet(DEFAULT_SHEET);
   }
 
   function changeValue(field, delta, min, max) {
@@ -215,7 +198,7 @@ function App() {
 
   return (
     <div>
-      <h1> Lupo Solitario</h1>
+      <h1>Lupo Solitario</h1>
       <p>registro di guerra</p>
 
       <section>
