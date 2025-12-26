@@ -225,7 +225,11 @@ function App() {
   const [weaponInput, setWeaponInput] = useState("");
   const [activeTab, setActiveTab] = useState("sheet");
 
-  const [enemy, setEnemy] = useState({ cs: 0, ep: 0 });
+  const [enemy, setEnemy] = useState({
+    cs: 0,
+    ep: 0,
+    immuneToPsicolaser: false,
+  });
   const [combatResult, setCombatResult] = useState(null);
 
   function roll(max = 10) {
@@ -395,6 +399,33 @@ function App() {
     return 12;
   }
 
+  function modifierCombat(characterSheet, enemy) {
+    let modifierPsicolaser = 0;
+    let modifierScherma = 0;
+
+    if (
+      characterSheet.disciplines.includes("Psicolaser") &&
+      !enemy.immuneToPsicolaser
+    ) {
+      modifierPsicolaser = 2;
+    }
+    if (
+      characterSheet.disciplines.includes("Scherma") &&
+      characterSheet.schermaWeapon &&
+      characterSheet.weapons.includes(characterSheet.schermaWeapon)
+    ) {
+      modifierScherma = 2;
+    }
+    return { modifierPsicolaser, modifierScherma };
+  }
+
+  const { modifierPsicolaser, modifierScherma } = modifierCombat(
+    characterSheet,
+    enemy
+  );
+  const modifiers = modifierPsicolaser + modifierScherma;
+  const modifiedPlayerCS = characterSheet.cs + modifiers;
+
   function resolveCombat({ playerCS, enemyCS, playerEP, enemyEP }) {
     const ratio = playerCS - enemyCS;
     const rollValue = roll(10);
@@ -420,7 +451,7 @@ function App() {
 
   function handleCombat() {
     const result = resolveCombat({
-      playerCS: characterSheet.cs,
+      playerCS: modifiedPlayerCS,
       enemyCS: enemy.cs,
       playerEP: characterSheet.ep,
       enemyEP: enemy.ep,
@@ -653,6 +684,19 @@ function App() {
                   }
                 />
               </label>
+              <label>
+                Immune allo Psicolaser:{" "}
+                <input
+                  type="checkbox"
+                  checked={enemy.immuneToPsicolaser}
+                  onChange={(e) =>
+                    setEnemy({
+                      ...enemy,
+                      immuneToPsicolaser: e.target.checked,
+                    })
+                  }
+                />
+              </label>
               <button onClick={() => handleCombat()}>Combatti</button>
               {combatResult && (
                 <div>
@@ -660,6 +704,7 @@ function App() {
                   <p>Tu perdi: {combatResult.playerDamage} EP</p>
                   <p>EP Nemico: {enemy.ep}</p>
                   <p>EP Tuoi: {characterSheet.ep}</p>
+                  <p>Modificatori: {modifiedPlayerCS}</p>
                 </div>
               )}
             </div>
