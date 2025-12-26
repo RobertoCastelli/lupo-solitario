@@ -1,9 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
+
+//TODO: refactor into smaller components
+//TODO: persist character sheet in local storage
+//TODO: improve combat UI
+//TODO: add validations and error handling
+//TODO: improve styling and layout
+//TODO: add more detailed combat log
 
 const DEFAULT_SHEET = {
   cs: 0,
   ep: 0,
+  csMax: 0,
+  epMax: 0,
   gold: 0,
   meals: 0,
   weapons: [],
@@ -219,25 +228,39 @@ const COMBAT_TABLE = [
 
 function App() {
   console.log("App component rendering");
-  const [characterSheet, setCharacterSheet] = useState(DEFAULT_SHEET);
+  const [characterSheet, setCharacterSheet] = useState(() => {
+    const savedCharacterSheet = localStorage.getItem("lw_characterSheet");
+    return savedCharacterSheet
+      ? JSON.parse(savedCharacterSheet)
+      : DEFAULT_SHEET;
+  });
   const [backpackInput, setBackpackInput] = useState("");
   const [backpackSpecialInput, setBackpackSpecialInput] = useState("");
   const [weaponInput, setWeaponInput] = useState("");
   const [activeTab, setActiveTab] = useState("sheet");
-
+  const [combatResult, setCombatResult] = useState(null);
+  const [combatLog, setCombatLog] = useState([]);
   const [enemy, setEnemy] = useState({
     cs: 0,
     ep: 0,
     immuneToPsicolaser: false,
   });
-  const [combatResult, setCombatResult] = useState(null);
+
+  useEffect(() => {
+    localStorage.setItem("lw_characterSheet", JSON.stringify(characterSheet));
+  }, [characterSheet]);
 
   function roll(max = 10) {
     return Math.floor(Math.random() * max);
   }
 
-  function resetInitialSetup() {
+  function nuovaPartita() {
+    localStorage.removeItem("lw_characterSheet");
+    setActiveTab("sheet");
     setCharacterSheet(DEFAULT_SHEET);
+    setEnemy({ cs: 0, ep: 0, immuneToPsicolaser: false });
+    setCombatResult(null);
+    setCombatLog([]);
   }
 
   function changeValue(field, delta, min, max) {
@@ -257,6 +280,7 @@ function App() {
     setCharacterSheet((prev) => ({
       ...prev,
       cs: initialCs,
+      csMax: initialCs,
       setup: { ...prev.setup, csSet: true },
     }));
   }
@@ -266,6 +290,7 @@ function App() {
     setCharacterSheet((prev) => ({
       ...prev,
       ep: initialEp,
+      epMax: initialEp,
       setup: { ...prev.setup, epSet: true },
     }));
   }
@@ -286,6 +311,19 @@ function App() {
       weapons: [weapon],
       setup: { ...prev.setup, weaponsSet: true },
     }));
+  }
+
+  function eatMeal() {
+    setCharacterSheet((prev) => {
+      if (prev.meals <= 0) return prev; // No meals left
+      if (prev.ep >= prev.epMax) return prev; // EP already full
+
+      return {
+        ...prev,
+        meals: prev.meals - 1,
+        ep: prev.epMax,
+      };
+    });
   }
 
   function removeWeapon(weapon) {
@@ -426,6 +464,12 @@ function App() {
   const modifiers = modifierPsicolaser + modifierScherma;
   const modifiedPlayerCS = characterSheet.cs + modifiers;
 
+  const isCombatOver =
+    characterSheet.ep <= 0 ||
+    enemy.ep <= 0 ||
+    (combatResult &&
+      (combatResult.playerDamage === "K" || combatResult.enemyDamage === "K"));
+
   function resolveCombat({ playerCS, enemyCS, playerEP, enemyEP }) {
     const ratio = playerCS - enemyCS;
     const rollValue = roll(10);
@@ -457,6 +501,20 @@ function App() {
       enemyEP: enemy.ep,
     });
 
+    const roundCombat = combatLog.length + 1;
+    const playerDamage = result.playerDamage;
+    const enemyDamage = result.enemyDamage;
+
+    setCombatLog((prev) => [
+      ...prev,
+      {
+        round: roundCombat,
+        playerDamage,
+        enemyDamage,
+        combatRatio: modifiedPlayerCS - enemy.cs,
+      },
+    ]);
+
     setCharacterSheet((prev) => ({
       ...prev,
       ep: result.updatePlayerEP,
@@ -478,18 +536,19 @@ function App() {
       {activeTab === "sheet" && (
         <>
           <section>
-            <button onClick={resetInitialSetup}>Reset Initial Setup</button>
+            <button onClick={nuovaPartita}>Nuova partita</button>
           </section>
           <section>
             <button onClick={() => setActiveTab("combat")}>
               Combattimento
             </button>
+            <button onClick={eatMeal}>Mangia pasto </button>
           </section>
           <section>
             <h2>Scheda</h2>
             <ul>
               <li>
-                ⚔️ Combattività (CS): {characterSheet.cs}{" "}
+                ⚔️ Combattività (CS): {characterSheet.cs}/{characterSheet.csMax}
                 <button
                   onClick={setInitialCs}
                   disabled={characterSheet.setup.csSet}
@@ -498,7 +557,7 @@ function App() {
                 </button>
               </li>
               <li>
-                ❤️ Resistenza (EP): {characterSheet.ep}{" "}
+                ❤️ Resistenza (EP): {characterSheet.ep}/{characterSheet.epMax}
                 <button
                   onClick={setInitialEp}
                   disabled={characterSheet.setup.epSet}
@@ -659,11 +718,22 @@ function App() {
       {activeTab === "combat" && (
         <>
           <section>
-            <button onClick={() => setActiveTab("sheet")}>Sheet</button>
+            <button
+              onClick={() => {
+                setActiveTab("sheet");
+                setCombatLog([]);
+              }}
+            >
+              Sheet
+            </button>
           </section>
           <section>
             <h2>Combattimento</h2>
             <div>
+              <label>
+                personaggio CS: {modifiedPlayerCS} (base: {characterSheet.cs} +
+                mod: {modifiers}) personaggio EP: {characterSheet.ep}
+              </label>
               <label>
                 Nemico CS:{" "}
                 <input
@@ -697,14 +767,23 @@ function App() {
                   }
                 />
               </label>
-              <button onClick={() => handleCombat()}>Combatti</button>
+              <button onClick={() => handleCombat()} disabled={isCombatOver}>
+                Combatti
+              </button>
+              {characterSheet.ep <= 0 && <p>💀 Sei morto</p>}
+              {enemy.ep <= 0 && <p>🏆 Nemico sconfitto</p>}
+
               {combatResult && (
                 <div>
-                  <p>Nemico perde: {combatResult.enemyDamage} EP</p>
-                  <p>Tu perdi: {combatResult.playerDamage} EP</p>
-                  <p>EP Nemico: {enemy.ep}</p>
-                  <p>EP Tuoi: {characterSheet.ep}</p>
-                  <p>Modificatori: {modifiedPlayerCS}</p>
+                  <p>Log Combattimento:</p>
+                  <ul>
+                    {combatLog.map((log, i) => (
+                      <li key={i}>
+                        Round {log.round}: Tu perdi {log.playerDamage} EP,
+                        Nemico perde {log.enemyDamage} EP
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               )}
             </div>
