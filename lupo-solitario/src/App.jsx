@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import {
+  DEFAULT_SHEET,
+  KAI_DISCIPLINES,
+  WEAPONS,
+  COMBAT_TABLE,
+} from "./data/constants";
+import CombatSheet from "./components/CombatSheet";
 
 //TODO: refactor into smaller components
 //TODO: persist character sheet in local storage
@@ -7,224 +14,6 @@ import "./App.css";
 //TODO: add validations and error handling
 //TODO: improve styling and layout
 //TODO: add more detailed combat log
-
-const DEFAULT_SHEET = {
-  cs: 0,
-  ep: 0,
-  csMax: 0,
-  epMax: 0,
-  gold: 0,
-  meals: 0,
-  weapons: [],
-  schermaWeapon: null,
-  disciplines: [],
-  backpack: [],
-  specialItems: [],
-  setup: {
-    csSet: false,
-    epSet: false,
-    goldSet: false,
-    weaponsSet: false,
-  },
-};
-
-const KAI_DISCIPLINES = [
-  "Mimetismo",
-  "Caccia",
-  "Sesto Senso",
-  "Orientamento",
-  "Guarigione",
-  "Scherma",
-  "Psicoschermo",
-  "Psicolaser",
-  "Affinità Animale",
-  "Telecinesi",
-];
-
-const WEAPONS = [
-  "Pugnale",
-  "Lancia",
-  "Daga",
-  "Mazza",
-  "Martello da Guerra",
-  "Spada",
-  "Ascia",
-  "Spada",
-  "Asta",
-  "Spadone",
-];
-
-const COMBAT_TABLE = [
-  // roll = 1
-  [
-    [0, "K"],
-    [0, "K"],
-    [0, 8],
-    [0, 6],
-    [1, 6],
-    [2, 5],
-    [3, 5],
-    [4, 5],
-    [5, 4],
-    [6, 4],
-    [7, 4],
-    [8, 3],
-    [9, 3],
-  ],
-
-  // roll = 2
-  [
-    [0, "K"],
-    [0, 8],
-    [0, 7],
-    [1, 6],
-    [2, 5],
-    [3, 5],
-    [4, 4],
-    [5, 4],
-    [6, 4],
-    [7, 4],
-    [8, 3],
-    [9, 3],
-    [10, 2],
-  ],
-
-  // roll = 3
-  [
-    [0, 8],
-    [0, 7],
-    [1, 6],
-    [2, 5],
-    [3, 5],
-    [4, 4],
-    [5, 4],
-    [6, 3],
-    [7, 3],
-    [8, 2],
-    [9, 2],
-    [10, 2],
-    [11, 2],
-  ],
-
-  // roll = 4
-  [
-    [0, 8],
-    [1, 7],
-    [2, 6],
-    [3, 5],
-    [4, 4],
-    [5, 4],
-    [6, 3],
-    [7, 3],
-    [8, 2],
-    [9, 2],
-    [10, 2],
-    [11, 2],
-    [12, 2],
-  ],
-
-  // roll = 5
-  [
-    [1, 7],
-    [2, 6],
-    [3, 5],
-    [4, 4],
-    [5, 4],
-    [6, 3],
-    [7, 2],
-    [8, 2],
-    [9, 2],
-    [10, 2],
-    [11, 1],
-    [12, 1],
-    [14, 1],
-  ],
-
-  // roll = 6
-  [
-    [2, 6],
-    [3, 6],
-    [4, 5],
-    [5, 4],
-    [6, 3],
-    [7, 2],
-    [8, 2],
-    [9, 2],
-    [10, 2],
-    [11, 1],
-    [12, 1],
-    [14, 1],
-    [16, 1],
-  ],
-
-  // roll = 7
-  [
-    [3, 5],
-    [4, 5],
-    [5, 4],
-    [6, 3],
-    [7, 2],
-    [8, 2],
-    [9, 1],
-    [10, 1],
-    [11, 1],
-    [12, 0],
-    [14, 0],
-    [16, 0],
-    [18, 0],
-  ],
-
-  // roll = 8
-  [
-    [4, 4],
-    [5, 4],
-    [6, 3],
-    [7, 2],
-    [8, 1],
-    [9, 1],
-    [10, 0],
-    [11, 0],
-    [12, 0],
-    [14, 0],
-    [16, 0],
-    [18, 0],
-    ["K", 0],
-  ],
-
-  // roll = 9
-  [
-    [5, 3],
-    [6, 3],
-    [7, 2],
-    [8, 0],
-    [9, 0],
-    [10, 0],
-    [11, 0],
-    [12, 0],
-    [14, 0],
-    [16, 0],
-    [18, 0],
-    ["K", 0],
-    ["K", 0],
-  ],
-
-  // roll = 0
-  [
-    [6, 0],
-    [7, 0],
-    [8, 0],
-    [9, 0],
-    [10, 0],
-    [11, 0],
-    [12, 0],
-    [14, 0],
-    [16, 0],
-    [18, 0],
-    ["K", 0],
-    ["K", 0],
-    ["K", 0],
-  ],
-];
 
 function App() {
   console.log("App component rendering");
@@ -716,79 +505,19 @@ function App() {
       )}
 
       {activeTab === "combat" && (
-        <>
-          <section>
-            <button
-              onClick={() => {
-                setActiveTab("sheet");
-                setCombatLog([]);
-              }}
-            >
-              Sheet
-            </button>
-          </section>
-          <section>
-            <h2>Combattimento</h2>
-            <div>
-              <label>
-                personaggio CS: {modifiedPlayerCS} (base: {characterSheet.cs} +
-                mod: {modifiers}) personaggio EP: {characterSheet.ep}
-              </label>
-              <label>
-                Nemico CS:{" "}
-                <input
-                  type="number"
-                  value={enemy.cs}
-                  onChange={(e) =>
-                    setEnemy({ ...enemy, cs: Number(e.target.value) || 0 })
-                  }
-                />
-              </label>
-              <label>
-                Nemico EP:{" "}
-                <input
-                  type="number"
-                  value={enemy.ep}
-                  onChange={(e) =>
-                    setEnemy({ ...enemy, ep: Number(e.target.value) })
-                  }
-                />
-              </label>
-              <label>
-                Immune allo Psicolaser:{" "}
-                <input
-                  type="checkbox"
-                  checked={enemy.immuneToPsicolaser}
-                  onChange={(e) =>
-                    setEnemy({
-                      ...enemy,
-                      immuneToPsicolaser: e.target.checked,
-                    })
-                  }
-                />
-              </label>
-              <button onClick={() => handleCombat()} disabled={isCombatOver}>
-                Combatti
-              </button>
-              {characterSheet.ep <= 0 && <p>💀 Sei morto</p>}
-              {enemy.ep <= 0 && <p>🏆 Nemico sconfitto</p>}
-
-              {combatResult && (
-                <div>
-                  <p>Log Combattimento:</p>
-                  <ul>
-                    {combatLog.map((log, i) => (
-                      <li key={i}>
-                        Round {log.round}: Tu perdi {log.playerDamage} EP,
-                        Nemico perde {log.enemyDamage} EP
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          </section>
-        </>
+        <CombatSheet
+          setActiveTab={setActiveTab}
+          setCombatLog={setCombatLog}
+          characterSheet={characterSheet}
+          enemy={enemy}
+          setEnemy={setEnemy}
+          handleCombat={handleCombat}
+          isCombatOver={isCombatOver}
+          combatResult={combatResult}
+          combatLog={combatLog}
+          modifiedPlayerCS={modifiedPlayerCS}
+          modifiers={modifiers}
+        />
       )}
     </div>
   );
