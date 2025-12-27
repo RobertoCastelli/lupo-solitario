@@ -7,9 +7,12 @@ import {
   COMBAT_TABLE,
 } from "./data/constants";
 import CombatSheet from "./components/CombatSheet";
+import CharacterSheet from "./components/CharacterSheet";
+import DisciplinesSheet from "./components/DisciplinesSheet";
+import WeaponSheet from "./components/WeaponSheet";
+import BackpackSheet from "./components/BackpackSheet";
+import BackpackSpecialSheet from "./components/BackpackSpecialSheet";
 
-//TODO: refactor into smaller components
-//TODO: persist character sheet in local storage
 //TODO: improve combat UI
 //TODO: add validations and error handling
 //TODO: improve styling and layout
@@ -26,7 +29,6 @@ function App() {
   const [backpackInput, setBackpackInput] = useState("");
   const [backpackSpecialInput, setBackpackSpecialInput] = useState("");
   const [weaponInput, setWeaponInput] = useState("");
-  const [activeTab, setActiveTab] = useState("sheet");
   const [combatResult, setCombatResult] = useState(null);
   const [combatLog, setCombatLog] = useState([]);
   const [enemy, setEnemy] = useState({
@@ -39,30 +41,7 @@ function App() {
     localStorage.setItem("lw_characterSheet", JSON.stringify(characterSheet));
   }, [characterSheet]);
 
-  function roll(max = 10) {
-    return Math.floor(Math.random() * max);
-  }
-
-  function nuovaPartita() {
-    localStorage.removeItem("lw_characterSheet");
-    setActiveTab("sheet");
-    setCharacterSheet(DEFAULT_SHEET);
-    setEnemy({ cs: 0, ep: 0, immuneToPsicolaser: false });
-    setCombatResult(null);
-    setCombatLog([]);
-  }
-
-  function changeValue(field, delta, min, max) {
-    setCharacterSheet((prev) => {
-      const newValue = prev[field] + delta;
-      if (newValue < min || newValue > max) return prev; // No change if out of bounds
-
-      return {
-        ...prev,
-        [field]: newValue,
-      };
-    });
-  }
+  // ===== CHARACTER SETUP =====
 
   function setInitialCs() {
     const initialCs = roll(10) + 11;
@@ -102,6 +81,32 @@ function App() {
     }));
   }
 
+  // ===== UTILS =====
+
+  function roll(max = 10) {
+    return Math.floor(Math.random() * max);
+  }
+
+  function nuovaPartita() {
+    localStorage.removeItem("lw_characterSheet");
+    setCharacterSheet(DEFAULT_SHEET);
+    setEnemy({ cs: 0, ep: 0, immuneToPsicolaser: false });
+    setCombatResult(null);
+    setCombatLog([]);
+  }
+
+  function changeValue(field, delta, min, max) {
+    setCharacterSheet((prev) => {
+      const newValue = prev[field] + delta;
+      if (newValue < min || newValue > max) return prev; // No change if out of bounds
+
+      return {
+        ...prev,
+        [field]: newValue,
+      };
+    });
+  }
+
   function eatMeal() {
     setCharacterSheet((prev) => {
       if (prev.meals <= 0) return prev; // No meals left
@@ -111,6 +116,19 @@ function App() {
         ...prev,
         meals: prev.meals - 1,
         ep: prev.epMax,
+      };
+    });
+  }
+
+  // ===== INVENTORY =====
+
+  function addWeapon(weapon) {
+    setCharacterSheet((prev) => {
+      if (prev.weapons.length >= 2) return prev; // Max 2 weapons
+
+      return {
+        ...prev,
+        weapons: [...prev.weapons, weapon],
       };
     });
   }
@@ -166,17 +184,6 @@ function App() {
     });
   }
 
-  function addWeapon(weapon) {
-    setCharacterSheet((prev) => {
-      if (prev.weapons.length >= 2) return prev; // Max 2 weapons
-
-      return {
-        ...prev,
-        weapons: [...prev.weapons, weapon],
-      };
-    });
-  }
-
   function toggleDiscipline(discipline) {
     setCharacterSheet((prev) => {
       const selected = prev.disciplines.includes(discipline);
@@ -209,6 +216,8 @@ function App() {
       };
     });
   }
+
+  // ===== COMBAT LOGIC =====
 
   function getCombatRatiofromTable(ratio) {
     if (ratio <= -11) return 0;
@@ -252,7 +261,6 @@ function App() {
   );
   const modifiers = modifierPsicolaser + modifierScherma;
   const modifiedPlayerCS = characterSheet.cs + modifiers;
-
   const isCombatOver =
     characterSheet.ep <= 0 ||
     enemy.ep <= 0 ||
@@ -319,206 +327,70 @@ function App() {
 
   return (
     <div>
-      <h1>Lupo Solitario</h1>
-      <p>registro di guerra</p>
+      <CharacterSheet
+        characterSheet={characterSheet}
+        backpackInput={backpackInput}
+        setBackpackInput={setBackpackInput}
+        backpackSpecialInput={backpackSpecialInput}
+        setBackpackSpecialInput={setBackpackSpecialInput}
+        weaponInput={weaponInput}
+        setWeaponInput={setWeaponInput}
+        changeValue={changeValue}
+        setInitialCs={setInitialCs}
+        setInitialEp={setInitialEp}
+        setInitialGold={setInitialGold}
+        setInitialWeapons={setInitialWeapons}
+        eatMeal={eatMeal}
+        removeWeapon={removeWeapon}
+        addBackpackItem={addBackpackItem}
+        removeBackpackItem={removeBackpackItem}
+        addSpecialItem={addSpecialItem}
+        removeSpecialItem={removeSpecialItem}
+        addWeapon={addWeapon}
+        nuovaPartita={nuovaPartita}
+      />
+      <DisciplinesSheet
+        characterSheet={characterSheet}
+        toggleDiscipline={toggleDiscipline}
+        KAI_DISCIPLINES={KAI_DISCIPLINES}
+      />
+      <WeaponSheet
+        characterSheet={characterSheet}
+        setInitialWeapons={setInitialWeapons}
+        weaponInput={weaponInput}
+        setWeaponInput={setWeaponInput}
+        addWeapon={addWeapon}
+        removeWeapon={removeWeapon}
+      />
 
-      {activeTab === "sheet" && (
-        <>
-          <section>
-            <button onClick={nuovaPartita}>Nuova partita</button>
-          </section>
-          <section>
-            <button onClick={() => setActiveTab("combat")}>
-              Combattimento
-            </button>
-            <button onClick={eatMeal}>Mangia pasto </button>
-          </section>
-          <section>
-            <h2>Scheda</h2>
-            <ul>
-              <li>
-                ⚔️ Combattività (CS): {characterSheet.cs}/{characterSheet.csMax}
-                <button
-                  onClick={setInitialCs}
-                  disabled={characterSheet.setup.csSet}
-                >
-                  set initial cs
-                </button>
-              </li>
-              <li>
-                ❤️ Resistenza (EP): {characterSheet.ep}/{characterSheet.epMax}
-                <button
-                  onClick={setInitialEp}
-                  disabled={characterSheet.setup.epSet}
-                >
-                  set initial ep
-                </button>
-              </li>
-              <li>
-                💰 Corone d'oro: {characterSheet.gold} / 50{" "}
-                <button
-                  onClick={setInitialGold}
-                  disabled={characterSheet.setup.goldSet}
-                >
-                  set initial gold
-                </button>
-                <button onClick={() => changeValue("gold", -1, 0, 50)}>
-                  -
-                </button>
-                <button onClick={() => changeValue("gold", 1, 0, 50)}>+</button>
-              </li>
-              <li>
-                🍞 Pasti: {characterSheet.meals} / 3{" "}
-                <button onClick={() => changeValue("meals", -1, 0, 3)}>
-                  -
-                </button>
-                <button onClick={() => changeValue("meals", 1, 0, 3)}>+</button>
-              </li>
-            </ul>
-          </section>
-          <section>
-            <h3>Discipline Kai ({characterSheet.disciplines.length} / 5)</h3>
-            <ul>
-              {KAI_DISCIPLINES.map((discipline) => {
-                const selected =
-                  characterSheet.disciplines.includes(discipline);
-                const limitReached = characterSheet.disciplines.length >= 5;
-                return (
-                  <li key={discipline}>
-                    <label>
-                      <input
-                        type="checkbox"
-                        checked={selected}
-                        disabled={!selected && limitReached}
-                        onChange={() => toggleDiscipline(discipline)}
-                      />
-                      {discipline === "Scherma" && selected
-                        ? `Scherma 🗡️ arma: ${characterSheet.schermaWeapon}`
-                        : discipline}
-                    </label>
-                  </li>
-                );
-              })}
-            </ul>
-          </section>
-          <section>
-            <h3>Armamento ({characterSheet.weapons.length} / 2)</h3>
-            <button
-              onClick={setInitialWeapons}
-              disabled={characterSheet.setup.weaponsSet}
-            >
-              set initial weapon
-            </button>
-            <input
-              type="text"
-              placeholder="arma"
-              value={weaponInput}
-              onChange={(e) => setWeaponInput(e.target.value)}
-            />
-            <button
-              disabled={
-                characterSheet.weapons.length >= 2 || weaponInput.trim() === ""
-              }
-              onClick={() => {
-                addWeapon(weaponInput.trim());
-                setWeaponInput("");
-              }}
-            >
-              Add
-            </button>
-            <ul>
-              {characterSheet.weapons.map((weapon, i) => (
-                <li key={i}>
-                  {weapon}{" "}
-                  <button onClick={() => removeWeapon(weapon)}> ❌</button>
-                </li>
-              ))}
-            </ul>
-          </section>
-          <section>
-            <h3>Zaino ({characterSheet.backpack.length} / 8)</h3>
-            <input
-              type="text"
-              placeholder="oggetto"
-              value={backpackInput}
-              disabled={characterSheet.backpack.length >= 8}
-              onChange={(e) => setBackpackInput(e.target.value)}
-              onFocus={(e) => e.target.select()}
-            />
-            <button
-              disabled={
-                characterSheet.backpack.length >= 8 ||
-                backpackInput.trim() === ""
-              }
-              onClick={() => {
-                addBackpackItem(backpackInput.trim());
-                setBackpackInput("");
-              }}
-            >
-              Add
-            </button>
-            <ol>
-              {characterSheet.backpack.map((object, i) => (
-                <li key={i}>
-                  {object}
-                  <button onClick={() => removeBackpackItem(object)}>
-                    {" "}
-                    ❌
-                  </button>
-                </li>
-              ))}
-            </ol>
-          </section>
-          <section>
-            <h3>Oggetti Speciali</h3>
-            <input
-              type="text"
-              placeholder="oggetto speciale"
-              value={backpackSpecialInput}
-              onChange={(e) => {
-                setBackpackSpecialInput(e.target.value);
-              }}
-              onFocus={(e) => e.target.select()}
-            />
-            <button
-              disabled={backpackSpecialInput.trim() === ""}
-              onClick={() => {
-                addSpecialItem(backpackSpecialInput.trim());
-                setBackpackSpecialInput("");
-              }}
-            >
-              Add
-            </button>
-            <ul>
-              {characterSheet.specialItems.map((specialItem, i) => (
-                <li key={i}>
-                  {specialItem}
-                  <button onClick={() => removeSpecialItem(specialItem)}>
-                    {" "}
-                    ❌
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </section>
-        </>
-      )}
+      <BackpackSheet
+        characterSheet={characterSheet}
+        backpackInput={backpackInput}
+        setBackpackInput={setBackpackInput}
+        addBackpackItem={addBackpackItem}
+        removeBackpackItem={removeBackpackItem}
+      />
 
-      {activeTab === "combat" && (
-        <CombatSheet
-          setActiveTab={setActiveTab}
-          setCombatLog={setCombatLog}
-          characterSheet={characterSheet}
-          enemy={enemy}
-          setEnemy={setEnemy}
-          handleCombat={handleCombat}
-          isCombatOver={isCombatOver}
-          combatResult={combatResult}
-          combatLog={combatLog}
-          modifiedPlayerCS={modifiedPlayerCS}
-          modifiers={modifiers}
-        />
-      )}
+      <BackpackSpecialSheet
+        characterSheet={characterSheet}
+        backpackSpecialInput={backpackSpecialInput}
+        setBackpackSpecialInput={setBackpackSpecialInput}
+        addSpecialItem={addSpecialItem}
+        removeSpecialItem={removeSpecialItem}
+      />
+
+      <CombatSheet
+        setCombatLog={setCombatLog}
+        characterSheet={characterSheet}
+        enemy={enemy}
+        setEnemy={setEnemy}
+        handleCombat={handleCombat}
+        isCombatOver={isCombatOver}
+        combatResult={combatResult}
+        combatLog={combatLog}
+        modifiedPlayerCS={modifiedPlayerCS}
+        modifiers={modifiers}
+      />
     </div>
   );
 }

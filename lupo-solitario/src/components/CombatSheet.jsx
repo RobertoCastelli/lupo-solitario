@@ -1,6 +1,4 @@
 const CombatSheet = ({
-  setActiveTab,
-  setCombatLog,
   characterSheet,
   enemy,
   setEnemy,
@@ -13,16 +11,6 @@ const CombatSheet = ({
 }) => {
   return (
     <>
-      <section>
-        <button
-          onClick={() => {
-            setActiveTab("sheet");
-            setCombatLog([]);
-          }}
-        >
-          Sheet
-        </button>
-      </section>
       <section>
         <h2>Combattimento</h2>
         <div>
