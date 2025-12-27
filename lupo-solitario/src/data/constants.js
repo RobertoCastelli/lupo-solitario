@@ -10,12 +10,6 @@ export const DEFAULT_SHEET = {
   disciplines: [],
   backpack: [],
   specialItems: [],
-  setup: {
-    csSet: false,
-    epSet: false,
-    goldSet: false,
-    weaponsSet: false,
-  },
 };
 
 export const COMBAT_TABLE = [

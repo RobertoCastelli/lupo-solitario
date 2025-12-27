@@ -6,27 +6,28 @@ const BackpackSpecialSheet = ({
   removeSpecialItem,
 }) => {
   return (
-    <section>
-      <div>BackpackSpecialSheet</div>
-      <h3>Oggetti Speciali</h3>
-      <input
-        type="text"
-        placeholder="oggetto speciale"
-        value={backpackSpecialInput}
-        onChange={(e) => {
-          setBackpackSpecialInput(e.target.value);
-        }}
-        onFocus={(e) => e.target.select()}
-      />
-      <button
-        disabled={backpackSpecialInput.trim() === ""}
-        onClick={() => {
-          addSpecialItem(backpackSpecialInput.trim());
-          setBackpackSpecialInput("");
-        }}
-      >
-        Add
-      </button>
+    <section className="oggetti-speciali">
+      <h3>oggetti speciali</h3>
+      <div className="input-row">
+        <input
+          type="text"
+          placeholder="oggetto speciale"
+          value={backpackSpecialInput}
+          onChange={(e) => {
+            setBackpackSpecialInput(e.target.value);
+          }}
+          onFocus={(e) => e.target.select()}
+        />
+        <button
+          disabled={backpackSpecialInput.trim() === ""}
+          onClick={() => {
+            addSpecialItem(backpackSpecialInput.trim());
+            setBackpackSpecialInput("");
+          }}
+        >
+          Add
+        </button>
+      </div>
       <ul>
         {characterSheet.specialItems.map((specialItem, i) => (
           <li key={i}>

@@ -1,22 +1,19 @@
 import { useEffect, useState } from "react";
-import "./App.css";
+import "./styles/App.css";
 import {
   DEFAULT_SHEET,
   KAI_DISCIPLINES,
   WEAPONS,
   COMBAT_TABLE,
 } from "./data/constants";
+import Header from "./components/Header";
 import CombatSheet from "./components/CombatSheet";
 import CharacterSheet from "./components/CharacterSheet";
 import DisciplinesSheet from "./components/DisciplinesSheet";
 import WeaponSheet from "./components/WeaponSheet";
 import BackpackSheet from "./components/BackpackSheet";
 import BackpackSpecialSheet from "./components/BackpackSpecialSheet";
-
-//TODO: improve combat UI
-//TODO: add validations and error handling
-//TODO: improve styling and layout
-//TODO: add more detailed combat log
+import Footer from "./components/Footer";
 
 function App() {
   console.log("App component rendering");
@@ -43,13 +40,20 @@ function App() {
 
   // ===== CHARACTER SETUP =====
 
+  function startAdventure() {
+    resetGame();
+    setInitialCs();
+    setInitialEp();
+    setInitialGold();
+    setInitialWeapons();
+  }
+
   function setInitialCs() {
     const initialCs = roll(10) + 11;
     setCharacterSheet((prev) => ({
       ...prev,
       cs: initialCs,
       csMax: initialCs,
-      setup: { ...prev.setup, csSet: true },
     }));
   }
 
@@ -59,7 +63,6 @@ function App() {
       ...prev,
       ep: initialEp,
       epMax: initialEp,
-      setup: { ...prev.setup, epSet: true },
     }));
   }
 
@@ -68,7 +71,6 @@ function App() {
     setCharacterSheet((prev) => ({
       ...prev,
       gold: initialGold,
-      setup: { ...prev.setup, goldSet: true },
     }));
   }
 
@@ -77,7 +79,6 @@ function App() {
     setCharacterSheet((prev) => ({
       ...prev,
       weapons: [weapon],
-      setup: { ...prev.setup, weaponsSet: true },
     }));
   }
 
@@ -87,7 +88,7 @@ function App() {
     return Math.floor(Math.random() * max);
   }
 
-  function nuovaPartita() {
+  function resetGame() {
     localStorage.removeItem("lw_characterSheet");
     setCharacterSheet(DEFAULT_SHEET);
     setEnemy({ cs: 0, ep: 0, immuneToPsicolaser: false });
@@ -326,71 +327,58 @@ function App() {
   }
 
   return (
-    <div>
-      <CharacterSheet
-        characterSheet={characterSheet}
-        backpackInput={backpackInput}
-        setBackpackInput={setBackpackInput}
-        backpackSpecialInput={backpackSpecialInput}
-        setBackpackSpecialInput={setBackpackSpecialInput}
-        weaponInput={weaponInput}
-        setWeaponInput={setWeaponInput}
-        changeValue={changeValue}
-        setInitialCs={setInitialCs}
-        setInitialEp={setInitialEp}
-        setInitialGold={setInitialGold}
-        setInitialWeapons={setInitialWeapons}
-        eatMeal={eatMeal}
-        removeWeapon={removeWeapon}
-        addBackpackItem={addBackpackItem}
-        removeBackpackItem={removeBackpackItem}
-        addSpecialItem={addSpecialItem}
-        removeSpecialItem={removeSpecialItem}
-        addWeapon={addWeapon}
-        nuovaPartita={nuovaPartita}
-      />
-      <DisciplinesSheet
-        characterSheet={characterSheet}
-        toggleDiscipline={toggleDiscipline}
-        KAI_DISCIPLINES={KAI_DISCIPLINES}
-      />
-      <WeaponSheet
-        characterSheet={characterSheet}
-        setInitialWeapons={setInitialWeapons}
-        weaponInput={weaponInput}
-        setWeaponInput={setWeaponInput}
-        addWeapon={addWeapon}
-        removeWeapon={removeWeapon}
-      />
+    <div className="container">
+      <Header startAdventure={startAdventure} />
+      <div className="content">
+        <CharacterSheet
+          characterSheet={characterSheet}
+          changeValue={changeValue}
+          eatMeal={eatMeal}
+        />
+        <DisciplinesSheet
+          characterSheet={characterSheet}
+          toggleDiscipline={toggleDiscipline}
+          KAI_DISCIPLINES={KAI_DISCIPLINES}
+        />
+        <WeaponSheet
+          characterSheet={characterSheet}
+          weaponInput={weaponInput}
+          setWeaponInput={setWeaponInput}
+          addWeapon={addWeapon}
+          removeWeapon={removeWeapon}
+        />
 
-      <BackpackSheet
-        characterSheet={characterSheet}
-        backpackInput={backpackInput}
-        setBackpackInput={setBackpackInput}
-        addBackpackItem={addBackpackItem}
-        removeBackpackItem={removeBackpackItem}
-      />
+        <BackpackSheet
+          characterSheet={characterSheet}
+          backpackInput={backpackInput}
+          setBackpackInput={setBackpackInput}
+          addBackpackItem={addBackpackItem}
+          removeBackpackItem={removeBackpackItem}
+        />
 
-      <BackpackSpecialSheet
-        characterSheet={characterSheet}
-        backpackSpecialInput={backpackSpecialInput}
-        setBackpackSpecialInput={setBackpackSpecialInput}
-        addSpecialItem={addSpecialItem}
-        removeSpecialItem={removeSpecialItem}
-      />
+        <BackpackSpecialSheet
+          characterSheet={characterSheet}
+          backpackSpecialInput={backpackSpecialInput}
+          setBackpackSpecialInput={setBackpackSpecialInput}
+          addSpecialItem={addSpecialItem}
+          removeSpecialItem={removeSpecialItem}
+        />
 
-      <CombatSheet
-        setCombatLog={setCombatLog}
-        characterSheet={characterSheet}
-        enemy={enemy}
-        setEnemy={setEnemy}
-        handleCombat={handleCombat}
-        isCombatOver={isCombatOver}
-        combatResult={combatResult}
-        combatLog={combatLog}
-        modifiedPlayerCS={modifiedPlayerCS}
-        modifiers={modifiers}
-      />
+        <CombatSheet
+          setCombatLog={setCombatLog}
+          characterSheet={characterSheet}
+          enemy={enemy}
+          setEnemy={setEnemy}
+          handleCombat={handleCombat}
+          isCombatOver={isCombatOver}
+          combatResult={combatResult}
+          combatLog={combatLog}
+          modifiedPlayerCS={modifiedPlayerCS}
+          modifiers={modifiers}
+        />
+      </div>
+
+      <Footer />
     </div>
   );
 }

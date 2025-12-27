@@ -11,8 +11,8 @@ const CombatSheet = ({
 }) => {
   return (
     <>
-      <section>
-        <h2>Combattimento</h2>
+      <section className="combattimento">
+        <h3>combattimento</h3>
         <div>
           <label>
             personaggio CS: {modifiedPlayerCS} (base: {characterSheet.cs} + mod:{" "}

@@ -1,58 +1,32 @@
-const CharacterSheet = ({
-  nuovaPartita,
-  characterSheet,
-  changeValue,
-  setInitialCs,
-  setInitialEp,
-  setInitialGold,
-  eatMeal,
-}) => {
+const CharacterSheet = ({ characterSheet, changeValue, eatMeal }) => {
   return (
     <>
-      <section>
-        <button onClick={nuovaPartita}>Nuova partita</button>
-      </section>
-      <section>
-        <button onClick={eatMeal}>Mangia pasto </button>
-      </section>
-      <section>
-        <h2>Scheda</h2>
+      <section className="scheda">
+        <h3>scheda</h3>
         <ul>
           <li>
-            ⚔️ Combattività (CS): {characterSheet.cs}/{characterSheet.csMax}
-            <button
-              onClick={setInitialCs}
-              disabled={characterSheet.setup.csSet}
-            >
-              set initial cs
-            </button>
+            <label>Combattività (CS):</label> {characterSheet.cs}
           </li>
           <li>
-            ❤️ Resistenza (EP): {characterSheet.ep}/{characterSheet.epMax}
-            <button
-              onClick={setInitialEp}
-              disabled={characterSheet.setup.epSet}
-            >
-              set initial ep
-            </button>
+            <label>Resistenza (EP):</label>
+            {characterSheet.ep}/{characterSheet.epMax}
           </li>
           <li>
-            💰 Corone d'oro: {characterSheet.gold} / 50{" "}
-            <button
-              onClick={setInitialGold}
-              disabled={characterSheet.setup.goldSet}
-            >
-              set initial gold
-            </button>
-            <button onClick={() => changeValue("gold", -1, 0, 50)}>-</button>
-            <button onClick={() => changeValue("gold", 1, 0, 50)}>+</button>
+            Corone d'oro: {characterSheet.gold} / 50{" "}
+            <div>
+              <button onClick={() => changeValue("gold", -1, 0, 50)}>-</button>
+              <button onClick={() => changeValue("gold", 1, 0, 50)}>+</button>
+            </div>
           </li>
           <li>
-            🍞 Pasti: {characterSheet.meals} / 3{" "}
-            <button onClick={() => changeValue("meals", -1, 0, 3)}>-</button>
-            <button onClick={() => changeValue("meals", 1, 0, 3)}>+</button>
+            Pasti: {characterSheet.meals} / 3{" "}
+            <div>
+              <button onClick={() => changeValue("meals", -1, 0, 3)}>-</button>
+              <button onClick={() => changeValue("meals", 1, 0, 3)}>+</button>
+            </div>
           </li>
         </ul>
+        <button onClick={eatMeal}>Mangia pasto</button>
       </section>
     </>
   );
