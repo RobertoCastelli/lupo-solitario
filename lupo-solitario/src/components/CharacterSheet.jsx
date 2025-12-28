@@ -14,15 +14,15 @@ const CharacterSheet = ({ characterSheet, changeValue, eatMeal }) => {
           <li>
             Corone d'oro: {characterSheet.gold} / 50{" "}
             <div>
-              <button onClick={() => changeValue("gold", -1, 0, 50)}>-</button>
-              <button onClick={() => changeValue("gold", 1, 0, 50)}>+</button>
+              <button onClick={() => changeValue("gold", -1, 0, 50)}>➖</button>
+              <button onClick={() => changeValue("gold", 1, 0, 50)}>➕</button>
             </div>
           </li>
           <li>
             Pasti: {characterSheet.meals} / 3{" "}
             <div>
-              <button onClick={() => changeValue("meals", -1, 0, 3)}>-</button>
-              <button onClick={() => changeValue("meals", 1, 0, 3)}>+</button>
+              <button onClick={() => changeValue("meals", -1, 0, 3)}>➖</button>
+              <button onClick={() => changeValue("meals", 1, 0, 3)}>➕</button>
             </div>
           </li>
         </ul>
