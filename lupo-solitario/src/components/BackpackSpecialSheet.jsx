@@ -7,7 +7,7 @@ const BackpackSpecialSheet = ({
 }) => {
   return (
     <section className="oggetti-speciali">
-      <h3>oggetti speciali</h3>
+      <h3>oggetti speciali (∞)</h3>
       <div className="input-row">
         <input
           type="text"

@@ -15,9 +15,10 @@ const CombatSheet = ({
         <h3>combattimento</h3>
         <div>
           <label>
-            personaggio CS: {modifiedPlayerCS} (base: {characterSheet.cs} + mod:{" "}
-            {modifiers}) personaggio EP: {characterSheet.ep}
+            LW CS: {modifiedPlayerCS} (base: {characterSheet.cs} + mod:{" "}
+            {modifiers})
           </label>
+          <label>LW EP: {characterSheet.ep}</label>
           <label>
             Nemico CS:{" "}
             <input

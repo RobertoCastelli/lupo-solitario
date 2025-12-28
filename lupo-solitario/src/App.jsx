@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import "./styles/App.css";
+import "./styles/app.css";
+import "./styles/buttons.css";
+import "./styles/inputs.css";
 import {
   DEFAULT_SHEET,
   KAI_DISCIPLINES,
@@ -23,6 +25,7 @@ function App() {
       ? JSON.parse(savedCharacterSheet)
       : DEFAULT_SHEET;
   });
+  const [activeSheet, setActiveSheet] = useState("char_sheet");
   const [backpackInput, setBackpackInput] = useState("");
   const [backpackSpecialInput, setBackpackSpecialInput] = useState("");
   const [weaponInput, setWeaponInput] = useState("");
@@ -328,56 +331,62 @@ function App() {
 
   return (
     <div className="container">
-      <Header startAdventure={startAdventure} />
+      <Header startAdventure={startAdventure} setActiveSheet={setActiveSheet} />
       <div className="content">
-        <CharacterSheet
-          characterSheet={characterSheet}
-          changeValue={changeValue}
-          eatMeal={eatMeal}
-        />
-        <DisciplinesSheet
-          characterSheet={characterSheet}
-          toggleDiscipline={toggleDiscipline}
-          KAI_DISCIPLINES={KAI_DISCIPLINES}
-        />
-        <WeaponSheet
-          characterSheet={characterSheet}
-          weaponInput={weaponInput}
-          setWeaponInput={setWeaponInput}
-          addWeapon={addWeapon}
-          removeWeapon={removeWeapon}
-        />
+        {activeSheet === "char_sheet" && (
+          <>
+            <CharacterSheet
+              characterSheet={characterSheet}
+              changeValue={changeValue}
+              eatMeal={eatMeal}
+            />
+            <DisciplinesSheet
+              characterSheet={characterSheet}
+              toggleDiscipline={toggleDiscipline}
+              KAI_DISCIPLINES={KAI_DISCIPLINES}
+            />
+            <WeaponSheet
+              characterSheet={characterSheet}
+              weaponInput={weaponInput}
+              setWeaponInput={setWeaponInput}
+              addWeapon={addWeapon}
+              removeWeapon={removeWeapon}
+            />
 
-        <BackpackSheet
-          characterSheet={characterSheet}
-          backpackInput={backpackInput}
-          setBackpackInput={setBackpackInput}
-          addBackpackItem={addBackpackItem}
-          removeBackpackItem={removeBackpackItem}
-        />
+            <BackpackSheet
+              characterSheet={characterSheet}
+              backpackInput={backpackInput}
+              setBackpackInput={setBackpackInput}
+              addBackpackItem={addBackpackItem}
+              removeBackpackItem={removeBackpackItem}
+            />
 
-        <BackpackSpecialSheet
-          characterSheet={characterSheet}
-          backpackSpecialInput={backpackSpecialInput}
-          setBackpackSpecialInput={setBackpackSpecialInput}
-          addSpecialItem={addSpecialItem}
-          removeSpecialItem={removeSpecialItem}
-        />
-
-        <CombatSheet
-          setCombatLog={setCombatLog}
-          characterSheet={characterSheet}
-          enemy={enemy}
-          setEnemy={setEnemy}
-          handleCombat={handleCombat}
-          isCombatOver={isCombatOver}
-          combatResult={combatResult}
-          combatLog={combatLog}
-          modifiedPlayerCS={modifiedPlayerCS}
-          modifiers={modifiers}
-        />
+            <BackpackSpecialSheet
+              characterSheet={characterSheet}
+              backpackSpecialInput={backpackSpecialInput}
+              setBackpackSpecialInput={setBackpackSpecialInput}
+              addSpecialItem={addSpecialItem}
+              removeSpecialItem={removeSpecialItem}
+            />
+          </>
+        )}
+        {activeSheet === "combat_sheet" && (
+          <>
+            <CombatSheet
+              setCombatLog={setCombatLog}
+              characterSheet={characterSheet}
+              enemy={enemy}
+              setEnemy={setEnemy}
+              handleCombat={handleCombat}
+              isCombatOver={isCombatOver}
+              combatResult={combatResult}
+              combatLog={combatLog}
+              modifiedPlayerCS={modifiedPlayerCS}
+              modifiers={modifiers}
+            />
+          </>
+        )}
       </div>
-
       <Footer />
     </div>
   );

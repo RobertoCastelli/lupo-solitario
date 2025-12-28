@@ -1,0 +1,46 @@
+/* ===== BASE TEXT / NUMBER ===== */
+input[type="text"],
+input[type="number"] {
+  font-family: "Cinzel", serif;
+  border-radius: 0.3rem;
+  background: var(--paper-main);
+  color: var(--ink-main);
+  border: 1px solid var(--border-soft);
+  min-width: 0;
+  width: 100%;
+}
+
+.input-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ===== PLACEHOLDER ===== */
+input::placeholder {
+  color: var(--text-disabled);
+  font-style: italic;
+}
+
+/* ===== FOCUS ===== */
+input[type="text"]:focus,
+input[type="number"]:focus {
+  outline: none;
+  background: var(--paper-soft);
+  border-color: var(--border-accent);
+}
+
+/* ===== DISABLED ===== */
+input[type="text"]:disabled,
+input[type="number"]:disabled {
+  background: var(--paper-disabled);
+  color: var(--text-disabled);
+  border-color: var(--border-light);
+  cursor: not-allowed;
+}
+
+/* ======   CHECKBOX   ====== */
+input[type="checkbox"] {
+  accent-color: var(--border-accent);
+}
+
+

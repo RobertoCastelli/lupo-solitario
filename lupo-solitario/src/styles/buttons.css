@@ -1,0 +1,32 @@
+/* ===== BASE ===== */
+button {
+  font-family: "Cinzel", serif;
+  font-size: 0.75rem;
+  border-radius: 0.3rem;
+  background: var(--paper-main);
+  color: var(--ink-main);
+  border: 1px solid var(--border-main);
+  cursor: pointer;
+  user-select: none;
+  margin: 0.1rem;
+}
+
+/* ===== HOVER ===== */
+button:hover:not(:disabled) {
+  background: var(--paper-hover);
+}
+
+/* ===== ACTIVE / PRESS ===== */
+button:active:not(:disabled) {
+  box-shadow:
+    inset 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* ===== DISABLED ===== */
+button:disabled {
+  color: var(--text-disabled);
+  background: var(--paper-disabled);
+  border-color: var(--border-light);
+  cursor: not-allowed;
+}
+
