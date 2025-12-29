@@ -44,7 +44,7 @@ const CombatSheet = ({
                   placeholder="EP nemico"
                   value={enemy.ep}
                   onChange={(e) =>
-                    setEnemy({ ...enemy, ep: Number(e.target.value) })
+                    setEnemy({ ...enemy, ep: Number(e.target.value) || 0 })
                   }
                 />
               </li>

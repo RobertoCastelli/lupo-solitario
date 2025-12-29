@@ -30,3 +30,11 @@ button:disabled {
   cursor: not-allowed;
 }
 
+.btn-combat-sheet {
+  background-color: var(--combat-bg);
+  border: 1px solid var(--combat-border);
+}
+.borsa-dadi button {
+  width: 35%;
+}
+

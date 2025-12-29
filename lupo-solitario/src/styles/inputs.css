@@ -4,8 +4,9 @@ input[type="number"] {
   font-family: "Cinzel", serif;
   border-radius: 0.3rem;
   background: var(--paper-main);
+  border: none;
+  border-bottom: 1px solid var(--border-soft);
   color: var(--ink-main);
-  border: 1px solid var(--border-soft);
   box-sizing: border-box;
   width: 100%;
   min-width: 0;

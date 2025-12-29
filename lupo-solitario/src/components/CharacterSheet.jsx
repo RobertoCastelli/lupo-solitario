@@ -1,32 +1,83 @@
-const CharacterSheet = ({ characterSheet, changeValue, eatMeal }) => {
+const CharacterSheet = ({
+  characterSheet,
+  changeValue,
+  eatMeal,
+  segnalibro,
+  rollDice,
+  rollDiceValue,
+}) => {
   return (
     <>
       <section className="scheda">
         <h3>scheda</h3>
-        <ul>
-          <li>
-            <label>Combattività (CS):</label> {characterSheet.cs}
-          </li>
-          <li>
-            <label>Resistenza (EP):</label>
-            {characterSheet.ep}/{characterSheet.epMax}
-          </li>
-          <li>
-            Corone d'oro: {characterSheet.gold} / 50{" "}
-            <div>
+
+        <div className="scheda-cs-ep">
+          <div>
+            <label>CS:</label>
+            <span>{characterSheet.cs}</span>
+          </div>
+          <div>
+            <label>EP:</label>
+            <span>{characterSheet.ep}</span> / {characterSheet.epMax}
+          </div>
+        </div>
+
+        <div className="scheda-utility">
+          <div className="scheda-segnalibro">
+            <input
+              type="number"
+              placeholder="segnalibro"
+              value={characterSheet.segnalibro}
+              onChange={(e) => segnalibro(e.target.value)}
+              onFocus={(e) => e.target.select}
+            />
+          </div>
+          <div className="btn-mangia-pasto">
+            <button
+              onClick={eatMeal}
+              disabled={
+                characterSheet.ep >= characterSheet.epMax ||
+                characterSheet.meals <= 0
+              }
+            >
+              mangia
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section className="borsa">
+        <h3>borsa</h3>
+
+        <div className="borsa-oro">
+          <div>
+            <label>corone:</label>
+            <span>{characterSheet.gold}</span> / 50{" "}
+          </div>
+          <div>
+            <div className="btn-group-change-value">
               <button onClick={() => changeValue("gold", -1, 0, 50)}>➖</button>
               <button onClick={() => changeValue("gold", 1, 0, 50)}>➕</button>
             </div>
-          </li>
-          <li>
-            Pasti: {characterSheet.meals} / 3{" "}
-            <div>
-              <button onClick={eatMeal}>Mangia pasto</button>
+          </div>
+        </div>
+        <div className="borsa-pasti">
+          <div>
+            <label>pasti:</label>
+            <span>{characterSheet.meals}</span> / 3{" "}
+          </div>
+          <div>
+            <div className="btn-group-change-value">
               <button onClick={() => changeValue("meals", -1, 0, 3)}>➖</button>
               <button onClick={() => changeValue("meals", 1, 0, 3)}>➕</button>
             </div>
-          </li>
-        </ul>
+          </div>
+        </div>
+
+        <div className="borsa-dadi">
+          <div>{rollDiceValue != null ? rollDiceValue : "- -"}</div>
+          <button onClick={() => rollDice(10)}>🎲🎲</button>
+        </div>
       </section>
     </>
   );

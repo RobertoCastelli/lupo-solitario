@@ -14,6 +14,7 @@ const BackpackSheet = ({
           placeholder="oggetto"
           value={backpackInput}
           disabled={characterSheet.backpack.length >= 8}
+          maxLength={20}
           onChange={(e) => setBackpackInput(e.target.value)}
           onFocus={(e) => e.target.select()}
         />

@@ -27,6 +27,7 @@ function App() {
       ? JSON.parse(savedCharacterSheet)
       : DEFAULT_SHEET;
   });
+  const [rollDiceValue, setRollDiceValue] = useState(null);
   const [activeSheet, setActiveSheet] = useState("char_sheet");
   const [backpackInput, setBackpackInput] = useState("");
   const [backpackSpecialInput, setBackpackSpecialInput] = useState("");
@@ -60,7 +61,7 @@ function App() {
   }
 
   function setInitialCs() {
-    const initialCs = roll(10) + 10;
+    const initialCs = roll(10) + 11;
     setCharacterSheet((prev) => ({
       ...prev,
       cs: initialCs,
@@ -69,7 +70,7 @@ function App() {
   }
 
   function setInitialEp() {
-    const initialEp = roll(10) + 20;
+    const initialEp = roll(10) + 21;
     setCharacterSheet((prev) => ({
       ...prev,
       ep: initialEp,
@@ -97,6 +98,15 @@ function App() {
 
   function roll(max = 10) {
     return Math.floor(Math.random() * max);
+  }
+
+  function rollDice(max = 10) {
+    const rollValue = Math.floor(Math.random() * max);
+    setRollDiceValue(rollValue);
+
+    setTimeout(() => {
+      setRollDiceValue(null);
+    }, 5000);
   }
 
   function resetGame() {
@@ -128,6 +138,15 @@ function App() {
         ...prev,
         meals: prev.meals - 1,
         ep: prev.epMax,
+      };
+    });
+  }
+
+  function segnalibro(paragrafo) {
+    setCharacterSheet((prev) => {
+      return {
+        ...prev,
+        segnalibro: paragrafo,
       };
     });
   }
@@ -375,6 +394,9 @@ function App() {
               characterSheet={characterSheet}
               changeValue={changeValue}
               eatMeal={eatMeal}
+              segnalibro={segnalibro}
+              rollDice={rollDice}
+              rollDiceValue={rollDiceValue}
             />
             <DisciplinesSheet
               characterSheet={characterSheet}

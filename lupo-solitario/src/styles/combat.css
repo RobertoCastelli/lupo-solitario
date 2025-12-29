@@ -1,24 +1,6 @@
-/* =====================================================
-   SEZIONE COMBATTIMENTO – REGISTRO DI GUERRA
-   ===================================================== */
-
-section.combattimento {
-  grid-column: 1 / -1;
-}
-
-/* ===== CONTENUTO GENERALE ===== */
-.combattimento {
-  background: var(--paper-soft);
-  border: 1px solid var(--border-main);
-  padding: 0.6rem;
-}
-
 /* ===== HEADER ===== */
 .combattimento h3 {
-  text-align: center;
-  border-bottom: 1px solid var(--border-main);
-  padding-bottom: 0.3rem;
-  margin-bottom: 0.5rem;
+  color: var(--combat-border);
 }
 
 /* ===== STATS SUPERIORI ===== */
@@ -57,10 +39,7 @@ section.combattimento {
   margin-bottom: 0.4rem;
 }
 
-/* =====================================================
-   DIARIO DI COMBATTIMENTO (LA PARTE IMPORTANTE)
-   ===================================================== */
-
+/* ====== LOG ===== */
 .combat-log {
   margin-top: 0.6rem;
 }

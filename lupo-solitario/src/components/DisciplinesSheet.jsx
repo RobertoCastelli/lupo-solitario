@@ -15,6 +15,7 @@ const Disciplines = ({ characterSheet, toggleDiscipline, KAI_DISCIPLINES }) => {
                   disabled={!selected && limitReached}
                   onChange={() => toggleDiscipline(discipline)}
                 />
+
                 {discipline === "Scherma" && selected
                   ? `Scherma 🗡️ ${characterSheet.schermaWeapon}`
                   : discipline}

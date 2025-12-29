@@ -2,11 +2,21 @@ const Header = ({ startAdventure, setActiveSheet }) => {
   return (
     <header>
       <h2>registro di guerra</h2>
-      <button onClick={startAdventure}>nuova avventura</button>
+      <button className="btn-nuova-avventura" onClick={startAdventure}>
+        nuova avventura
+      </button>
       <div>
-        <button onClick={() => setActiveSheet("char_sheet")}>scheda</button>
-        <button onClick={() => setActiveSheet("combat_sheet")}>
-          combattimento
+        <button
+          className="btn-char-sheet"
+          onClick={() => setActiveSheet("char_sheet")}
+        >
+          scheda
+        </button>
+        <button
+          className="btn-combat-sheet"
+          onClick={() => setActiveSheet("combat_sheet")}
+        >
+          combatti
         </button>
       </div>
     </header>

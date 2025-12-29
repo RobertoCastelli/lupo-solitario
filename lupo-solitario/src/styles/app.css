@@ -24,6 +24,7 @@
 body {
   font-family: "Cinzel", sans-serif;
   font-size: 0.7rem;
+  text-transform: capitalize;
   color: var(--ink-main);
   background: url(../images/bg.jpg);
   background-repeat: no-repeat;
@@ -43,7 +44,7 @@ body {
   grid-template-columns: 1fr 1fr;
   gap: 0.3rem;
   grid-template-areas: 
-  "scheda scheda"
+  "scheda borsa"
   "discipline zaino"
   "armamento oggetti-speciali"
   "combattimento combattimento";
@@ -56,6 +57,7 @@ body {
 .armamento { grid-area: armamento; }
 .oggetti-speciali { grid-area: oggetti-speciali; }
 .combattimento { grid-area: combattimento; }
+.borsa {grid-area: borsa;}
 
 header {
   display: flex;
@@ -79,4 +81,38 @@ footer {
   display: flex;
   justify-content: center;
 }
+
+
+.discipline label {
+  display: flex;
+  align-items: center;
+}
+
+.scheda-cs-ep {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 1rem;
+  align-items: center;
+}
+.borsa-pasti,.borsa-oro, .borsa-dadi {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.scheda span{
+  font-weight: bold;
+  padding: 0.3rem 0.5rem;
+  border-radius: 0.3rem;
+  background-color: var(--paper-main);
+  pointer-events: none;
+}
+.scheda-utility {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.scheda-segnalibro {
+  width: 50%;
+}
+
 

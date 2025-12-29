@@ -13,6 +13,7 @@ const BackpackSpecialSheet = ({
           type="text"
           placeholder="oggetto speciale"
           value={backpackSpecialInput}
+          maxLength={20}
           onChange={(e) => {
             setBackpackSpecialInput(e.target.value);
           }}

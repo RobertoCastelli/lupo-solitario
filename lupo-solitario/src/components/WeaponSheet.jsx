@@ -13,6 +13,7 @@ const WeaponSheet = ({
           type="text"
           placeholder="arma"
           value={weaponInput}
+          maxLength={20}
           onChange={(e) => setWeaponInput(e.target.value)}
         />
         <button

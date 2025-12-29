@@ -6,6 +6,7 @@ export const DEFAULT_SHEET = {
   gold: 0,
   meals: 0,
   weapons: [],
+  segnalibro: "",
   schermaWeapon: null,
   disciplines: [],
   backpack: [],
