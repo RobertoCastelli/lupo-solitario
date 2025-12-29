@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import "./styles/app.css";
 import "./styles/buttons.css";
 import "./styles/inputs.css";
+import "./styles/sections.css";
+import "./styles/combat.css";
 import {
   DEFAULT_SHEET,
   KAI_DISCIPLINES,
@@ -41,6 +43,12 @@ function App() {
     localStorage.setItem("lw_characterSheet", JSON.stringify(characterSheet));
   }, [characterSheet]);
 
+  useEffect(() => {
+    if (activeSheet === "char_sheet") {
+      resetCombat();
+    }
+  }, [activeSheet]);
+
   // ===== CHARACTER SETUP =====
 
   function startAdventure() {
@@ -52,7 +60,7 @@ function App() {
   }
 
   function setInitialCs() {
-    const initialCs = roll(10) + 11;
+    const initialCs = roll(10) + 10;
     setCharacterSheet((prev) => ({
       ...prev,
       cs: initialCs,
@@ -61,7 +69,7 @@ function App() {
   }
 
   function setInitialEp() {
-    const initialEp = roll(10) + 21;
+    const initialEp = roll(10) + 20;
     setCharacterSheet((prev) => ({
       ...prev,
       ep: initialEp,
@@ -242,13 +250,15 @@ function App() {
   function modifierCombat(characterSheet, enemy) {
     let modifierPsicolaser = 0;
     let modifierScherma = 0;
-
+    let modifierUnarmed = 0;
+    // Psicolaser
     if (
       characterSheet.disciplines.includes("Psicolaser") &&
       !enemy.immuneToPsicolaser
     ) {
       modifierPsicolaser = 2;
     }
+    // Scherma
     if (
       characterSheet.disciplines.includes("Scherma") &&
       characterSheet.schermaWeapon &&
@@ -256,14 +266,17 @@ function App() {
     ) {
       modifierScherma = 2;
     }
-    return { modifierPsicolaser, modifierScherma };
+    // Unarmed
+    if (characterSheet.weapons.length === 0) {
+      modifierUnarmed = -4;
+    }
+
+    return { modifierPsicolaser, modifierScherma, modifierUnarmed };
   }
 
-  const { modifierPsicolaser, modifierScherma } = modifierCombat(
-    characterSheet,
-    enemy
-  );
-  const modifiers = modifierPsicolaser + modifierScherma;
+  const { modifierPsicolaser, modifierScherma, modifierUnarmed } =
+    modifierCombat(characterSheet, enemy);
+  const modifiers = modifierPsicolaser + modifierScherma + modifierUnarmed;
   const modifiedPlayerCS = characterSheet.cs + modifiers;
   const isCombatOver =
     characterSheet.ep <= 0 ||
@@ -283,6 +296,7 @@ function App() {
       playerDamage === "K" ? 0 : Math.max(0, playerEP - playerDamage);
 
     return {
+      rollValue,
       playerCS,
       enemyCS,
       playerEP,
@@ -302,17 +316,29 @@ function App() {
       enemyEP: enemy.ep,
     });
 
-    const roundCombat = combatLog.length + 1;
-    const playerDamage = result.playerDamage;
-    const enemyDamage = result.enemyDamage;
-
     setCombatLog((prev) => [
       ...prev,
       {
-        round: roundCombat,
-        playerDamage,
-        enemyDamage,
-        combatRatio: modifiedPlayerCS - enemy.cs,
+        // 🎲 tiro
+        roll: result.rollValue,
+        round: prev.length + 1,
+
+        // CS dettagliata
+        playerCSBase: characterSheet.cs,
+        playerCSModifiers: modifiers,
+        playerCSTotal: modifiedPlayerCS,
+
+        enemyCS: enemy.cs,
+
+        // rapporto reale
+        ratio: modifiedPlayerCS - enemy.cs,
+
+        // EP prima / dopo
+        playerEPBefore: characterSheet.ep,
+        playerEPAfter: result.updatePlayerEP,
+
+        enemyEPBefore: enemy.ep,
+        enemyEPAfter: result.updateEnemyEP,
       },
     ]);
 
@@ -327,6 +353,16 @@ function App() {
     }));
 
     setCombatResult(result);
+  }
+
+  function resetCombat() {
+    setEnemy({
+      cs: 0,
+      ep: 0,
+      immuneToPsicolaser: false,
+    });
+    setCombatLog([]);
+    setCombatResult(null);
   }
 
   return (

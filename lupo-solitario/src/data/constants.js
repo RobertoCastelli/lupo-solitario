@@ -11,9 +11,25 @@ export const DEFAULT_SHEET = {
   backpack: [],
   specialItems: [],
 };
-
 export const COMBAT_TABLE = [
-  // roll = 1
+  // rollValue = 0
+  [
+    [6, 0],
+    [7, 0],
+    [8, 0],
+    [9, 0],
+    [10, 0],
+    [11, 0],
+    [12, 0],
+    [14, 0],
+    [16, 0],
+    [18, 0],
+    ["K", 0],
+    ["K", 0],
+    ["K", 0],
+  ],
+
+  // rollValue = 1
   [
     [0, "K"],
     [0, "K"],
@@ -30,7 +46,7 @@ export const COMBAT_TABLE = [
     [9, 3],
   ],
 
-  // roll = 2
+  // rollValue = 2
   [
     [0, "K"],
     [0, 8],
@@ -40,14 +56,14 @@ export const COMBAT_TABLE = [
     [3, 5],
     [4, 4],
     [5, 4],
-    [6, 4],
-    [7, 4],
+    [6, 3],
+    [7, 3],
     [8, 3],
     [9, 3],
     [10, 2],
   ],
 
-  // roll = 3
+  // rollValue = 3
   [
     [0, 8],
     [0, 7],
@@ -58,13 +74,13 @@ export const COMBAT_TABLE = [
     [5, 4],
     [6, 3],
     [7, 3],
-    [8, 2],
+    [8, 3],
     [9, 2],
     [10, 2],
     [11, 2],
   ],
 
-  // roll = 4
+  // rollValue = 4
   [
     [0, 8],
     [1, 7],
@@ -81,7 +97,7 @@ export const COMBAT_TABLE = [
     [12, 2],
   ],
 
-  // roll = 5
+  // rollValue = 5
   [
     [1, 7],
     [2, 6],
@@ -93,12 +109,12 @@ export const COMBAT_TABLE = [
     [8, 2],
     [9, 2],
     [10, 2],
-    [11, 1],
-    [12, 1],
+    [11, 2],
+    [12, 2],
     [14, 1],
   ],
 
-  // roll = 6
+  // rollValue = 6
   [
     [2, 6],
     [3, 6],
@@ -115,7 +131,7 @@ export const COMBAT_TABLE = [
     [16, 1],
   ],
 
-  // roll = 7
+  // rollValue = 7
   [
     [3, 5],
     [4, 5],
@@ -132,7 +148,7 @@ export const COMBAT_TABLE = [
     [18, 0],
   ],
 
-  // roll = 8
+  // rollValue = 8
   [
     [4, 4],
     [5, 4],
@@ -149,7 +165,7 @@ export const COMBAT_TABLE = [
     ["K", 0],
   ],
 
-  // roll = 9
+  // rollValue = 9
   [
     [5, 3],
     [6, 3],
@@ -162,23 +178,6 @@ export const COMBAT_TABLE = [
     [14, 0],
     [16, 0],
     [18, 0],
-    ["K", 0],
-    ["K", 0],
-  ],
-
-  // roll = 0
-  [
-    [6, 0],
-    [7, 0],
-    [8, 0],
-    [9, 0],
-    [10, 0],
-    [11, 0],
-    [12, 0],
-    [14, 0],
-    [16, 0],
-    [18, 0],
-    ["K", 0],
     ["K", 0],
     ["K", 0],
   ],

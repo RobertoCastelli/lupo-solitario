@@ -16,7 +16,7 @@ const Disciplines = ({ characterSheet, toggleDiscipline, KAI_DISCIPLINES }) => {
                   onChange={() => toggleDiscipline(discipline)}
                 />
                 {discipline === "Scherma" && selected
-                  ? `Scherma 🗡️ arma: ${characterSheet.schermaWeapon}`
+                  ? `Scherma 🗡️ ${characterSheet.schermaWeapon}`
                   : discipline}
               </label>
             </li>

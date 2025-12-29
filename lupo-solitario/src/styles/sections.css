@@ -1,0 +1,28 @@
+section {
+  background-color: var(--paper-soft);
+  border: 1px solid var(--border-main);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  min-width: 0;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.discipline label {
+  display: flex;
+  align-items: center;
+}
+
+
+
+
+

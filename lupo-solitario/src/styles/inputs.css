@@ -6,19 +6,16 @@ input[type="number"] {
   background: var(--paper-main);
   color: var(--ink-main);
   border: 1px solid var(--border-soft);
-  min-width: 0;
+  box-sizing: border-box;
   width: 100%;
-}
-
-.input-row {
-  display: flex;
-  justify-content: space-between;
+  min-width: 0;
 }
 
 /* ===== PLACEHOLDER ===== */
 input::placeholder {
   color: var(--text-disabled);
   font-style: italic;
+  font-size: 0.7rem;
 }
 
 /* ===== FOCUS ===== */
@@ -38,9 +35,16 @@ input[type="number"]:disabled {
   cursor: not-allowed;
 }
 
-/* ======   CHECKBOX   ====== */
+/* =======================================================
+   CHECKBOX – STILE SOBRIO
+   ======================================================= */
 input[type="checkbox"] {
   accent-color: var(--border-accent);
+}
+
+.input-row {
+  display: flex;
+  align-items: center;
 }
 
 

@@ -21,12 +21,12 @@ const CharacterSheet = ({ characterSheet, changeValue, eatMeal }) => {
           <li>
             Pasti: {characterSheet.meals} / 3{" "}
             <div>
+              <button onClick={eatMeal}>Mangia pasto</button>
               <button onClick={() => changeValue("meals", -1, 0, 3)}>➖</button>
               <button onClick={() => changeValue("meals", 1, 0, 3)}>➕</button>
             </div>
           </li>
         </ul>
-        <button onClick={eatMeal}>Mangia pasto</button>
       </section>
     </>
   );
