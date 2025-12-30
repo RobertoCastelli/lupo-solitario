@@ -1,4 +1,4 @@
-import { GiCrossedSwords, GiWolfHead } from "react-icons/gi";
+import { GiCrossedSwords, GiScrollQuill } from "react-icons/gi";
 
 const Header = ({ startAdventure, activeSheet, setActiveSheet }) => {
   return (
@@ -16,7 +16,7 @@ const Header = ({ startAdventure, activeSheet, setActiveSheet }) => {
           onClick={() => setActiveSheet("char_sheet")}
           disabled={activeSheet === "char_sheet"}
         >
-          <GiWolfHead className="icon" size={20} />
+          <GiScrollQuill className="icon" size={20} />
         </button>
         <button
           className="btn-combat-sheet"

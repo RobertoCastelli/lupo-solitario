@@ -87,7 +87,7 @@ function App() {
   }
 
   function setInitialWeapons() {
-    const weapon = WEAPONS[roll(WEAPONS.length)];
+    const weapon = WEAPONS[roll(WEAPONS.length)].toLowerCase();
     setCharacterSheet((prev) => ({
       ...prev,
       weapons: [weapon],
@@ -163,7 +163,7 @@ function App() {
 
       return {
         ...prev,
-        weapons: [...prev.weapons, weapon],
+        weapons: [...prev.weapons, weapon.trim().toLowerCase()],
       };
     });
   }
@@ -239,7 +239,7 @@ function App() {
         return {
           ...prev,
           disciplines: [...prev.disciplines, discipline],
-          schermaWeapon: WEAPONS[roll(WEAPONS.length)],
+          schermaWeapon: WEAPONS[roll(WEAPONS.length)].toLowerCase(),
         };
       }
 
@@ -449,6 +449,9 @@ function App() {
               combatLog={combatLog}
               modifiedPlayerCS={modifiedPlayerCS}
               modifiers={modifiers}
+              modifierPsicolaser={modifierPsicolaser}
+              modifierScherma={modifierScherma}
+              modifierUnarmed={modifierUnarmed}
             />
           </>
         )}

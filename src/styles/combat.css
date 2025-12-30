@@ -1,117 +1,154 @@
-/* ===== HEADER ===== */
+/* =========================================================
+   COMBATTIMENTO – LAYOUT GENERALE
+========================================================= */
+
 .combattimento {
-  background-color:rgb(225, 195, 168, 0.5);
+  background-color: rgba(225, 195, 168, 0.5);
 }
+
+.combat-result {
+  background-color: rgba(0, 0, 0, 0.04);
+  text-align: center;
+  width: 100%;
+}
+
 .combat {
   display: grid;
   align-items: center;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-areas: 
-  "combat-result combat-result combat-result"
-  "lw-stats btn-combatti nemico-stats"
-  "combat-psicolaser combat-psicolaser combat-psicolaser"
-  "combat-log combat-log combat-log";
+  grid-template-areas:
+    "result result result"
+    "lw-stats ratio nemico-stats"
+    "modifiers btn-combatti psicolaser"
+    "log log log";
 }
-.lw-stats {grid-area:lw-stats}
-.nemico-stats{grid-area:nemico-stats}
-.btn-combatti {grid-area:btn-combatti}
-.combat-result {grid-area:combat-result}
-.combat-log {grid-area:combat-log}
-.combat-psicolaser {grid-area: combat-psicolaser}
+
+/* Aree */
+.lw-stats        { grid-area: lw-stats; }
+.nemico-stats    { grid-area: nemico-stats; }
+.combat-ratio    { grid-area: ratio; }
+.combat-modifiers{ grid-area: modifiers; }
+.btn-combatti    { grid-area: btn-combatti; }
+.combat-psicolaser { grid-area: psicolaser; }
+.combat-log      { grid-area: log; }
+.combat-result   {grid-area: result}
+
+/* =========================================================
+   PLAYER / NEMICO – STRUTTURA DATI (CS / EP)
+========================================================= */
+
+.lw-stats,
+.nemico-stats {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.3rem;
+  row-gap: 0.2rem;
+  align-items: center;
+  font-size: 0.75rem;
+}
+
+.lw-stats > div,
+.nemico-stats > div {
+  display: contents;
+}
+
+.nemico-stats input {
+  width: 3rem;
+  text-align: center;
+}
+
+/* =========================================================
+   RAPPORTO DI FORZA / MODIFICATORI
+========================================================= */
+
+.combat-ratio {
+  text-align: center;
+  font-size: 1rem;
+}
+
+.combat-modifiers ul {
+  margin: 0;
+  padding: 0;
+}
+
+.combat-modifiers li, 
+.combat-psicolaser div {
+  font-size: smaller;
+  font-style: italic;
+}
+
+
+/* =========================================================
+   PSICOLASER / BOTTONE COMBATTI
+========================================================= */
 
 .combat-psicolaser {
   display: flex;
-  justify-content: end;
   align-items: center;
 }
+
 .btn-combatti {
-margin: auto;
+  margin: auto;
 }
-.combat-result {
-  text-align: center;
-  background: rgba(0, 0, 0, 0.04);
+
+/* =========================================================
+   BARRE EP
+========================================================= */
+
+/* .ep-bar {
   width: 100%;
-}
-.nemico-stats input {
-  width:3rem;
+  height: 6px;
+  margin-top: 2px;
+  background: var(--paper-dark);
+  border: 1px solid var(--border-accent);
 }
 
-/* ======  COMBAT LOG  ====== */
-
-.combat-log {
-  margin-top: 1rem;
-  padding: 0.5rem 0;
-  font-family: "IM Fell English", serif;
+.ep-fill {
+  height: 100%;
+  background: #7a2e2e; 
 }
+
+.ep-fill.enemy {
+  background: #4b3b2b;
+}
+ */
+/* =========================================================
+   COMBAT LOG RIGA: EP PLAYER | RN+DADO | EP NEMICO
+========================================================= */
 
 .combat-log ul {
   list-style: none;
-  padding: 0;
   margin: 0;
+  margin-top: 0.5rem;
+  padding: 0;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column-reverse; /* ultimo in alto */
 }
 
 .combat-log-entry {
-  padding: 6px 4px;
+  width: 100%;
+  padding: 4px 2px;
   border-bottom: 1px dotted var(--combat-border);
-  font-size: 0.85rem;
-  opacity: 0.6;
-}
+  font-size: 0.7rem;
+  opacity: 0.55;
 
-.combat-log-turno {
   display: grid;
-  font-family: "Cinzel", serif;
-  font-size: 0.75rem;
-  margin-bottom: 2px;
-  color: var(--combat-border);
-}
-
-.combat-log-cs {
-  display: flex;
-  justify-content: space-between;
+  grid-template-columns: 1fr auto 1fr; 
   align-items: center;
-  margin-bottom: 2px;
+  white-space: nowrap; /* niente a capo */
 }
 
-.combat-log-cs .vs {
-  margin: 0.5rem;
-}
-
-.combat-log-ratio {
-  display: grid;
+.combat-log-entry:last-child {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .combat-log-ep {
-  display: grid;
-  font-size: 0.75rem;
-  opacity: 0.85;
+  display: contents;
 }
 
-/* ultimo turno evidenziato */
-.combat-log-entry:last-child {
-  background: rgba(0, 0, 0, 0.05);
-  opacity: 1;
+/* Secondo div della EP (enemy) */
+.combat-log-ep > div:last-child {
+  text-align: right;
 }
 
-/* ===== ESITO COMBATTIMENTO ===== */
-
-.combat-result-vittoria {
-  color: #2f6b2f; /* verde spento */
-  font-weight: bold;
-}
-
-.combat-result-sconfitta {
-  color: #7a2e2e; /* rosso scuro */
-  font-weight: bold;
-}
-
-@keyframes combat-press {
-  0% { transform: scale(1); }
-  50% { transform: scale(0.96); }
-  100% { transform: scale(1); }
-}
-
-.btn-combatti button:active {
-  animation: combat-press 0.15s ease-in-out;
-}

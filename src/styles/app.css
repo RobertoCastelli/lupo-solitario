@@ -90,6 +90,10 @@ label {
 
 .icon {
   vertical-align: middle;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
 }
 
 footer {
