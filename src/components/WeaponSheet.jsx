@@ -15,6 +15,7 @@ const WeaponSheet = ({
           value={weaponInput}
           maxLength={20}
           onChange={(e) => setWeaponInput(e.target.value)}
+          onFocus={(e) => e.target.select()}
         />
         <button
           disabled={

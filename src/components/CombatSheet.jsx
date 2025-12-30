@@ -1,3 +1,6 @@
+import { GiTrophy } from "react-icons/gi";
+import { IoSkull } from "react-icons/io5";
+
 const CombatSheet = ({
   characterSheet,
   enemy,
@@ -40,6 +43,7 @@ const CombatSheet = ({
                   onChange={(e) =>
                     setEnemy({ ...enemy, cs: Number(e.target.value) || 0 })
                   }
+                  onFocus={(e) => e.target.select()}
                 />
               </li>
               <li>
@@ -51,6 +55,7 @@ const CombatSheet = ({
                   onChange={(e) =>
                     setEnemy({ ...enemy, ep: Number(e.target.value) || 0 })
                   }
+                  onFocus={(e) => e.target.select()}
                 />
               </li>
             </ul>
@@ -77,8 +82,16 @@ const CombatSheet = ({
           </div>
 
           <div className="combat-result">
-            {combatResult && characterSheet.ep <= 0 && <p>💀 sei morto!</p>}
-            {combatResult && enemy.ep <= 0 && <p>🏆 nemico sconfitto!</p>}
+            {combatResult && characterSheet.ep <= 0 && (
+              <p>
+                <IoSkull className="icon" size={20} /> sei morto!
+              </p>
+            )}
+            {combatResult && enemy.ep <= 0 && (
+              <p>
+                <GiTrophy className="icon" size={20} /> nemico sconfitto!
+              </p>
+            )}
           </div>
 
           {combatResult && (

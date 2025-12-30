@@ -43,7 +43,7 @@ body {
 
 .content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1 / -1;
   gap: 0.3rem;
   grid-template-areas: 
   "scheda borsa"
@@ -63,11 +63,13 @@ body {
 
 header {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  align-items:center; 
 }
 
-header div {
+ .header-btn-group {
   display: grid;
+  align-items: center;
 }
 
 h2 {
@@ -77,17 +79,24 @@ h2 {
 }
 
 h3 {
-  margin: 0.5rem;
   border-bottom: 1px solid var(--border-accent);
+  margin-bottom: 0.3rem;
+  margin-top: 0;
 }
 
 label {
   font-weight: bold;
 }
 
+.icon {
+  vertical-align: middle;
+}
+
 footer {
   display: flex;
   justify-content: center;
+  margin-top: auto;
+
 }
 
 .scheda-cs-ep {
@@ -96,12 +105,16 @@ footer {
   margin: 1rem;
   align-items: center;
 }
-.scheda span{
+.scheda-cs-ep span, 
+.borsa-oro span, 
+.borsa-pasti span{
   font-weight: bold;
   padding: 0.1rem 0.5rem;
-  border-radius: 0.3rem;
+  border-radius: 0.2rem;
   pointer-events: none;
-  border: 1px solid var(--ink-main);
+  border: none;
+  border-bottom: 1px solid var(--border-accent);
+  background-color: var(--paper-main);
 }
 .scheda-utility {
   display: flex;

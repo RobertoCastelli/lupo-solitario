@@ -386,7 +386,11 @@ function App() {
 
   return (
     <div className="container">
-      <Header startAdventure={startAdventure} setActiveSheet={setActiveSheet} />
+      <Header
+        startAdventure={startAdventure}
+        setActiveSheet={setActiveSheet}
+        activeSheet={activeSheet}
+      />
       <div className="content">
         {activeSheet === "char_sheet" && (
           <>

@@ -30,7 +30,7 @@ const CharacterSheet = ({
               placeholder="segnalibro"
               value={characterSheet.segnalibro}
               onChange={(e) => segnalibro(e.target.value)}
-              onFocus={(e) => e.target.select}
+              onFocus={(e) => e.target.select()}
             />
           </div>
           <div className="btn-mangia-pasto">
@@ -38,7 +38,8 @@ const CharacterSheet = ({
               onClick={eatMeal}
               disabled={
                 characterSheet.ep >= characterSheet.epMax ||
-                characterSheet.meals <= 0
+                characterSheet.meals <= 0 ||
+                characterSheet.ep <= 0
               }
             >
               mangia
