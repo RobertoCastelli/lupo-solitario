@@ -29,12 +29,14 @@ body {
   background: url(../images/bg.jpg);
   background-repeat: no-repeat;
   background-size: cover;
+  height: 100%;
 }
 
 /* ===== LAYOUT ===== */
 .container {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
   max-width: 400px;
   margin: 0 auto;
 }
@@ -86,21 +88,10 @@ footer {
   justify-content: center;
 }
 
-
-.discipline label {
-  display: flex;
-  align-items: center;
-}
-
 .scheda-cs-ep {
   display: flex;
   justify-content: space-evenly;
   margin: 1rem;
-  align-items: center;
-}
-.borsa-pasti,.borsa-oro, .borsa-dadi {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 .scheda span{
@@ -119,4 +110,14 @@ footer {
   width: 50%;
 }
 
+.borsa-pasti,.borsa-oro, .borsa-dadi {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.discipline label {
+  display: flex;
+  align-items: center;
+}
 
