@@ -1,5 +1,11 @@
-import { GiTrophy } from "react-icons/gi";
-import { IoSkull } from "react-icons/io5";
+import {
+  GiSwordwoman,
+  GiMonsterGrasp,
+  GiBleedingWound,
+  GiBackstab,
+  GiBullyMinion,
+  GiRaggedWound,
+} from "react-icons/gi";
 
 const CombatSheet = ({
   characterSheet,
@@ -82,16 +88,8 @@ const CombatSheet = ({
           </div>
 
           <div className="combat-result">
-            {combatResult && characterSheet.ep <= 0 && (
-              <p>
-                <IoSkull className="icon" size={20} /> sei morto!
-              </p>
-            )}
-            {combatResult && enemy.ep <= 0 && (
-              <p>
-                <GiTrophy className="icon" size={20} /> nemico sconfitto!
-              </p>
-            )}
+            {combatResult && characterSheet.ep <= 0 && <p>sei morto!</p>}
+            {combatResult && enemy.ep <= 0 && <p>nemico sconfitto!</p>}
           </div>
 
           {combatResult && (
@@ -106,22 +104,22 @@ const CombatSheet = ({
 
                     <div className="combat-log-cs">
                       <div>
-                        <strong>LS</strong>
+                        <GiSwordwoman className="icon" size={20} />
                         <br />
-                        CS
                         <strong> {log.playerCSTotal}</strong>
                       </div>
-                      <div>⚔️</div>
+
+                      <div className="vs">CS</div>
 
                       <div>
-                        <strong>NE</strong>
+                        <GiBullyMinion className="icon" size={20} />
                         <br />
-                        CS <strong>{log.enemyCS}</strong>
+                        <strong>{log.enemyCS}</strong>
                       </div>
                     </div>
 
                     <div className="combat-log-ratio">
-                      RDF:{" "}
+                      ⚔️{" "}
                       <strong>
                         {log.ratio >= 0 ? "+" : ""}
                         {log.ratio}
@@ -130,13 +128,25 @@ const CombatSheet = ({
 
                     <div className="combat-log-ep">
                       <div>
-                        EP LS: {log.playerEPBefore} →{" "}
-                        <strong>{log.playerEPAfter}</strong>
+                        <GiBleedingWound
+                          className="icon"
+                          size={20}
+                          color="brown"
+                        />{" "}
+                        lupo solitario: {log.playerEPBefore} →{" "}
+                        <strong>{log.playerEPAfter}</strong> (
+                        {log.playerEPAfter - log.playerEPBefore})
                       </div>
 
                       <div>
-                        EP NE: {log.enemyEPBefore} →{" "}
-                        <strong>{log.enemyEPAfter}</strong>
+                        <GiBleedingWound
+                          className="icon"
+                          size={20}
+                          color="brown"
+                        />{" "}
+                        nemico: {log.enemyEPBefore} →{" "}
+                        <strong>{log.enemyEPAfter}</strong> (
+                        {log.enemyEPAfter - log.enemyEPBefore})
                       </div>
                     </div>
                   </li>

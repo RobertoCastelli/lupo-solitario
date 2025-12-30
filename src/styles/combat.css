@@ -41,7 +41,7 @@ margin: auto;
 .combat-log {
   margin-top: 1rem;
   padding: 0.5rem 0;
-  font-family: "IM Fell English", serif;s
+  font-family: "IM Fell English", serif;
 }
 
 .combat-log ul {
@@ -50,14 +50,12 @@ margin: auto;
   margin: 0;
 }
 
-/* ogni turno = riga di diario */
 .combat-log-entry {
   padding: 6px 4px;
   border-bottom: 1px dotted var(--combat-border);
   font-size: 0.85rem;
 }
 
-/* intestazione turno */
 .combat-log-turno {
   display: grid;
   font-family: "Cinzel", serif;
@@ -66,7 +64,6 @@ margin: auto;
   color: var(--combat-border);
 }
 
-/* CS confronto: niente griglia rigida */
 .combat-log-cs {
   display: flex;
   justify-content: space-between;
@@ -75,26 +72,20 @@ margin: auto;
 }
 
 .combat-log-cs .vs {
-  font-size: 0.9rem;
-  opacity: 0.6;
+  margin: 0.5rem;
 }
 
-/* rapporto di forza: centrale ma discreto */
 .combat-log-ratio {
-  font-size: 0.75rem;
-  font-style: italic;
-  margin-bottom: 2px;
+  display: grid;
 }
 
-/* EP: stile “annotazione” */
 .combat-log-ep {
   display: grid;
   font-size: 0.75rem;
   opacity: 0.85;
 }
 
-/* ultimo turno leggermente evidenziato */
+/* ultimo turno evidenziato */
 .combat-log-entry:last-child {
   background: rgba(0, 0, 0, 0.04);
 }
-
