@@ -31,10 +31,13 @@ button:disabled {
 }
 
 .btn-combat-sheet {
-  background-color: var(--combat-bg);
+  color: var(--combat-border);
   border: 1px solid var(--combat-border);
 }
+.btn-combat-sheet:hover{
+  background-color: var(--combat-bg) !important;
+}
 .borsa-dadi button {
-  width: 35%;
+  width: 23%;
 }
 

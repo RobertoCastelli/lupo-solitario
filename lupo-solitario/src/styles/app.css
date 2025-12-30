@@ -77,6 +77,10 @@ h3 {
   border-bottom: 1px solid var(--border-accent);
 }
 
+label {
+  font-weight: bold;
+}
+
 footer {
   display: flex;
   justify-content: center;
@@ -103,8 +107,8 @@ footer {
   font-weight: bold;
   padding: 0.3rem 0.5rem;
   border-radius: 0.3rem;
-  background-color: var(--paper-main);
   pointer-events: none;
+  border: 1px solid var(--ink-main);
 }
 .scheda-utility {
   display: flex;

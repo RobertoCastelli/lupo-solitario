@@ -33,7 +33,7 @@ const BackpackSpecialSheet = ({
         {characterSheet.specialItems.map((specialItem, i) => (
           <li key={i}>
             {specialItem}
-            <button onClick={() => removeSpecialItem(specialItem)}> ❌</button>
+            <button onClick={() => removeSpecialItem(specialItem)}>x</button>
           </li>
         ))}
       </ul>

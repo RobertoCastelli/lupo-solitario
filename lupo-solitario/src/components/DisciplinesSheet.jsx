@@ -8,18 +8,15 @@ const Disciplines = ({ characterSheet, toggleDiscipline, KAI_DISCIPLINES }) => {
           const limitReached = characterSheet.disciplines.length >= 5;
           return (
             <li key={discipline}>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={selected}
-                  disabled={!selected && limitReached}
-                  onChange={() => toggleDiscipline(discipline)}
-                />
-
-                {discipline === "Scherma" && selected
-                  ? `Scherma 🗡️ ${characterSheet.schermaWeapon}`
-                  : discipline}
-              </label>
+              {discipline === "Scherma" && selected
+                ? `Scherma 🗡️ ${characterSheet.schermaWeapon}`
+                : discipline}
+              <input
+                type="checkbox"
+                checked={selected}
+                disabled={!selected && limitReached}
+                onChange={() => toggleDiscipline(discipline)}
+              />
             </li>
           );
         })}

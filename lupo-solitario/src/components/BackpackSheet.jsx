@@ -34,7 +34,7 @@ const BackpackSheet = ({
         {characterSheet.backpack.map((object, i) => (
           <li key={i}>
             {object}
-            <button onClick={() => removeBackpackItem(object)}> ❌</button>
+            <button onClick={() => removeBackpackItem(object)}>x</button>
           </li>
         ))}
       </ul>

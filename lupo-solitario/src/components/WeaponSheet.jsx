@@ -31,7 +31,7 @@ const WeaponSheet = ({
       <ul>
         {characterSheet.weapons.map((weapon, i) => (
           <li key={i}>
-            {weapon} <button onClick={() => removeWeapon(weapon)}> ❌</button>
+            {weapon} <button onClick={() => removeWeapon(weapon)}>x</button>
           </li>
         ))}
       </ul>
