@@ -1,10 +1,13 @@
 import {
   GiSwordwoman,
+  GiWolfHead,
   GiMonsterGrasp,
   GiBleedingWound,
   GiBackstab,
   GiBullyMinion,
   GiRaggedWound,
+  GiVampireDracula,
+  GiOrcHead,
 } from "react-icons/gi";
 
 const CombatSheet = ({
@@ -88,8 +91,12 @@ const CombatSheet = ({
           </div>
 
           <div className="combat-result">
-            {combatResult && characterSheet.ep <= 0 && <p>sei morto!</p>}
-            {combatResult && enemy.ep <= 0 && <p>nemico sconfitto!</p>}
+            {combatResult && characterSheet.ep <= 0 && (
+              <p className="combat-result-sconfitta">sei morto!</p>
+            )}
+            {combatResult && enemy.ep <= 0 && (
+              <p className="combat-result-vittoria">nemico sconfitto!</p>
+            )}
           </div>
 
           {combatResult && (
@@ -133,7 +140,8 @@ const CombatSheet = ({
                           size={20}
                           color="brown"
                         />{" "}
-                        lupo solitario: {log.playerEPBefore} →{" "}
+                        <GiWolfHead className="icon" size={20} />{" "}
+                        {log.playerEPBefore} →{" "}
                         <strong>{log.playerEPAfter}</strong> (
                         {log.playerEPAfter - log.playerEPBefore})
                       </div>
@@ -144,7 +152,8 @@ const CombatSheet = ({
                           size={20}
                           color="brown"
                         />{" "}
-                        avversario: {log.enemyEPBefore} →{" "}
+                        <GiOrcHead className="icon" size={20} />{" "}
+                        {log.enemyEPBefore} →{" "}
                         <strong>{log.enemyEPAfter}</strong> (
                         {log.enemyEPAfter - log.enemyEPBefore})
                       </div>
