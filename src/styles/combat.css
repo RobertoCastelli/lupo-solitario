@@ -1,6 +1,6 @@
 /* ===== HEADER ===== */
 .combattimento {
-  background-color: var(--combat-bg);
+  background-color:rgb(225, 195, 168, 0.5);
 }
 .combat {
   display: grid;
@@ -31,20 +31,19 @@ margin: auto;
   text-align: center;
   border-top: 1px solid var(--combat-border);
   border-bottom: 1px solid var(--combat-border);
-  background-color: var(--paper-main);
+  background: rgba(0, 0, 0, 0.04);
   width: 100%;
 }
 .nemico-stats input {
   width:3rem;
 }
 
-
 /* ======  COMBAT LOG  ====== */
 
 .combat-log {
   margin-top: 1rem;
   padding: 0.5rem 0;
-  font-family: "IM Fell English", serif;
+  font-family: "IM Fell English", serif;s
 }
 
 .combat-log ul {
