@@ -93,10 +93,9 @@ label {
 }
 
 footer {
-  display: flex;
-  justify-content: center;
+  display: grid;
   margin-top: auto;
-
+  text-align: center;
 }
 
 .scheda-cs-ep {

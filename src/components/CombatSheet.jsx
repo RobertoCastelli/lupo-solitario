@@ -39,7 +39,7 @@ const CombatSheet = ({
           </div>
 
           <div className="nemico-stats">
-            nemico
+            avversario
             <ul>
               <li>
                 <label>CS: </label>
@@ -144,7 +144,7 @@ const CombatSheet = ({
                           size={20}
                           color="brown"
                         />{" "}
-                        nemico: {log.enemyEPBefore} →{" "}
+                        avversario: {log.enemyEPBefore} →{" "}
                         <strong>{log.enemyEPAfter}</strong> (
                         {log.enemyEPAfter - log.enemyEPBefore})
                       </div>
