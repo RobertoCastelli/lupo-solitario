@@ -29,8 +29,6 @@ margin: auto;
 }
 .combat-result {
   text-align: center;
-  border-top: 1px solid var(--combat-border);
-  border-bottom: 1px solid var(--combat-border);
   background: rgba(0, 0, 0, 0.04);
   width: 100%;
 }

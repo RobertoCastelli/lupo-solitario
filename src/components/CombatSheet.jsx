@@ -77,7 +77,6 @@ const CombatSheet = ({
           </div>
 
           <div className="combat-result">
-            {!combatResult && <p>🤺 preparati al combattimento!</p>}
             {combatResult && characterSheet.ep <= 0 && <p>💀 sei morto!</p>}
             {combatResult && enemy.ep <= 0 && <p>🏆 nemico sconfitto!</p>}
           </div>

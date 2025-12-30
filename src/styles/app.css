@@ -71,7 +71,9 @@ header div {
 }
 
 h2 {
+  display: flex;
   text-align: center;
+  align-items: center;
 }
 
 h3 {
@@ -96,7 +98,7 @@ footer {
 }
 .scheda span{
   font-weight: bold;
-  padding: 0.3rem 0.5rem;
+  padding: 0.1rem 0.5rem;
   border-radius: 0.3rem;
   pointer-events: none;
   border: 1px solid var(--ink-main);

@@ -1,5 +1,3 @@
-import { GiWolfHead } from "react-icons/gi";
-
 const CharacterSheet = ({
   characterSheet,
   changeValue,
@@ -18,8 +16,6 @@ const CharacterSheet = ({
             <label>CS: </label>
             <span>{characterSheet.cs}</span>
           </div>
-
-          <GiWolfHead size={20} />
 
           <div>
             <label>EP: </label>
