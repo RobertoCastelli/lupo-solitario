@@ -77,7 +77,13 @@ const CharacterSheet = ({
         </div>
 
         <div className="borsa-dadi">
-          <div>{rollDiceValue != null ? rollDiceValue : "- -"}</div>
+          <div>
+            {rollDiceValue === "rolling" && (
+              <span className="dice-loading"></span>
+            )}
+            {typeof rollDiceValue === "number" && rollDiceValue}
+            {rollDiceValue === null && "???"}
+          </div>
           <button onClick={() => rollDice(10)}>🎲</button>
         </div>
       </section>

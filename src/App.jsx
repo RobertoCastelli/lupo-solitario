@@ -101,8 +101,12 @@ function App() {
   }
 
   function rollDice(max = 10) {
-    const rollValue = Math.floor(Math.random() * max);
-    setRollDiceValue(rollValue);
+    setRollDiceValue("rolling");
+
+    setTimeout(() => {
+      const rollValue = Math.floor(Math.random() * max);
+      setRollDiceValue(rollValue);
+    }, 3000);
 
     setTimeout(() => {
       setRollDiceValue(null);
