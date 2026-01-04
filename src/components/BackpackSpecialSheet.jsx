@@ -26,13 +26,19 @@ const BackpackSpecialSheet = ({
             setBackpackSpecialInput("");
           }}
         >
-          Add
+          add
         </button>
       </div>
+
+      <div className="input-row">
+        <p>nome</p>
+        <p>del</p>
+      </div>
+
       <ul>
-        {characterSheet.specialItems.map((specialItem, i) => (
-          <li key={i}>
-            {specialItem}
+        {characterSheet.specialItems.map((specialItem) => (
+          <li key={specialItem.id}>
+            {specialItem.name}
             <button onClick={() => removeSpecialItem(specialItem)}>x</button>
           </li>
         ))}

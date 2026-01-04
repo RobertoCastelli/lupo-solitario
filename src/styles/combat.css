@@ -1,29 +1,17 @@
 /* =========================================================
    COMBATTIMENTO – LAYOUT GENERALE
 ========================================================= */
-
-.combattimento {
-  background-color: rgba(225, 195, 168, 0.5);
-}
-
-.combat-result {
-  background-color: rgba(0, 0, 0, 0.04);
-  text-align: center;
-  width: 100%;
-}
-
 .combat {
   display: grid;
   align-items: center;
   grid-template-columns: repeat(3, 1fr);
   grid-template-areas:
-    "result result result"
-    "lw-stats ratio nemico-stats"
-    "modifiers btn-combatti psicolaser"
+  "btn-combatti btn-combatti btn-combatti"
+  "result result result"
+  "lw-stats ratio nemico-stats"
+  "modifiers ratio psicolaser"
     "log log log";
 }
-
-/* Aree */
 .lw-stats        { grid-area: lw-stats; }
 .nemico-stats    { grid-area: nemico-stats; }
 .combat-ratio    { grid-area: ratio; }
@@ -32,6 +20,25 @@
 .combat-psicolaser { grid-area: psicolaser; }
 .combat-log      { grid-area: log; }
 .combat-result   {grid-area: result}
+
+.combattimento {
+  background-color: rgba(225, 195, 168, 0.5);
+}
+
+.combat-result {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.combat-result-sconfitta {
+  color: brown;
+  font-weight: bold;
+  background-color: rgb(165, 42, 42, 0.1);
+}
+.combat-result-vittoria {
+  color: green;
+  font-weight: bold;
+  background-color: rgb(0, 128, 0, 0.1);
+}
 
 /* =========================================================
    PLAYER / NEMICO – STRUTTURA DATI (CS / EP)
@@ -44,11 +51,11 @@
   column-gap: 0.3rem;
   row-gap: 0.2rem;
   align-items: center;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }
 
-.lw-stats > div,
-.nemico-stats > div {
+.lw-stats div,
+.nemico-stats div {
   display: contents;
 }
 
@@ -72,15 +79,10 @@
 }
 
 .combat-modifiers li, 
-.combat-psicolaser div {
+.combat-psicolaser {
   font-size: smaller;
   font-style: italic;
 }
-
-
-/* =========================================================
-   PSICOLASER / BOTTONE COMBATTI
-========================================================= */
 
 .combat-psicolaser {
   display: flex;
@@ -88,8 +90,74 @@
 }
 
 .btn-combatti {
-  margin: auto;
+  background-image: url("../images/combat.png");
+  width: 100%;
+  height:80px;          
+  background-size: cover;
+  background-position: 50% 20%; /* teste visibili */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+
+  /* fade bordi */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 20%,
+    black 80%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 20%,
+    black 80%,
+    transparent 100%
+  );
 }
+
+
+/* =========================================================
+   COMBAT LOG RIGA: EP PLAYER | RN+DADO | EP NEMICO
+========================================================= */
+
+.combat-log ul {
+  display: flex;
+  flex-direction: column-reverse; /* ultimo in alto */
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  margin-top: 0.5rem;
+  list-style: none;
+}
+
+.combat-log li{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  padding: 4px 2px;
+  border-bottom: 1px dotted var(--combat-border);
+  font-size: 0.7rem;
+  opacity: 0.55;
+}
+
+.combat-log li:last-child {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.combat-log span {
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+/* Secondo div della EP (enemy) */
+.combat-log-ep > div:last-child {
+  text-align: right;
+}
+
 
 /* =========================================================
    BARRE EP
@@ -112,43 +180,3 @@
   background: #4b3b2b;
 }
  */
-/* =========================================================
-   COMBAT LOG RIGA: EP PLAYER | RN+DADO | EP NEMICO
-========================================================= */
-
-.combat-log ul {
-  list-style: none;
-  margin: 0;
-  margin-top: 0.5rem;
-  padding: 0;
-  display: flex;
-  flex-direction: column-reverse; /* ultimo in alto */
-}
-
-.combat-log-entry {
-  width: 100%;
-  padding: 4px 2px;
-  border-bottom: 1px dotted var(--combat-border);
-  font-size: 0.7rem;
-  opacity: 0.55;
-
-  display: grid;
-  grid-template-columns: 1fr auto 1fr; 
-  align-items: center;
-  white-space: nowrap; /* niente a capo */
-}
-
-.combat-log-entry:last-child {
-  opacity: 1;
-  background: rgba(0, 0, 0, 0.04);
-}
-
-.combat-log-ep {
-  display: contents;
-}
-
-/* Secondo div della EP (enemy) */
-.combat-log-ep > div:last-child {
-  text-align: right;
-}
-

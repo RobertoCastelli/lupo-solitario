@@ -4,6 +4,8 @@ const WeaponSheet = ({
   setWeaponInput,
   addWeapon,
   removeWeapon,
+  toggleWeapon,
+  updateWeaponModifier,
 }) => {
   return (
     <section className="armamento">
@@ -26,13 +28,38 @@ const WeaponSheet = ({
             setWeaponInput("");
           }}
         >
-          Add
+          add
         </button>
       </div>
+
+      <div className="input-row">
+        <p>equip</p>
+        <p>mod | del</p>
+      </div>
+
       <ul>
-        {characterSheet.weapons.map((weapon, i) => (
-          <li key={i}>
-            {weapon} <button onClick={() => removeWeapon(weapon)}>x</button>
+        {characterSheet.weapons.map((weapon) => (
+          <li key={weapon.id}>
+            <div className="input-row">
+              <input
+                type="checkbox"
+                checked={weapon.isEquipped}
+                onChange={() => toggleWeapon(weapon.id)}
+              />
+              {weapon.name}
+            </div>
+            <div className="input-row">
+              <input
+                className="armamento-input"
+                type="number"
+                value={weapon.csMod}
+                onChange={(e) =>
+                  updateWeaponModifier(weapon.id, Number(e.target.value) || 0)
+                }
+                onFocus={(e) => e.target.select()}
+              />
+              <button onClick={() => removeWeapon(weapon)}>x</button>
+            </div>
           </li>
         ))}
       </ul>

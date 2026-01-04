@@ -4,6 +4,7 @@ import "./styles/buttons.css";
 import "./styles/inputs.css";
 import "./styles/sections.css";
 import "./styles/combat.css";
+import "./styles/scheda.css";
 import {
   DEFAULT_SHEET,
   KAI_DISCIPLINES,
@@ -20,18 +21,19 @@ import BackpackSpecialSheet from "./components/BackpackSpecialSheet";
 import Footer from "./components/Footer";
 
 function App() {
-  console.log("App component rendering");
   const [characterSheet, setCharacterSheet] = useState(() => {
     const savedCharacterSheet = localStorage.getItem("lw_characterSheet");
     return savedCharacterSheet
       ? JSON.parse(savedCharacterSheet)
       : DEFAULT_SHEET;
   });
+  const [rollState, setRollState] = useState("idle");
   const [rollDiceValue, setRollDiceValue] = useState(null);
   const [activeSheet, setActiveSheet] = useState("char_sheet");
   const [backpackInput, setBackpackInput] = useState("");
   const [backpackSpecialInput, setBackpackSpecialInput] = useState("");
   const [weaponInput, setWeaponInput] = useState("");
+  const [alterCS, setAlterCS] = useState(0);
   const [combatResult, setCombatResult] = useState(null);
   const [combatLog, setCombatLog] = useState([]);
   const [enemy, setEnemy] = useState({
@@ -53,45 +55,34 @@ function App() {
   // ===== CHARACTER SETUP =====
 
   function startAdventure() {
-    resetGame();
-    setInitialCs();
-    setInitialEp();
-    setInitialGold();
-    setInitialWeapons();
-  }
+    localStorage.removeItem("lw_characterSheet");
 
-  function setInitialCs() {
-    const initialCs = roll(10) + 11;
-    setCharacterSheet((prev) => ({
-      ...prev,
-      cs: initialCs,
-      csMax: initialCs,
-    }));
-  }
-
-  function setInitialEp() {
-    const initialEp = roll(10) + 21;
-    setCharacterSheet((prev) => ({
-      ...prev,
-      ep: initialEp,
-      epMax: initialEp,
-    }));
-  }
-
-  function setInitialGold() {
+    const initialCS = roll(10) + 11;
+    const initialEP = roll(10) + 21;
     const initialGold = roll(10);
-    setCharacterSheet((prev) => ({
-      ...prev,
-      gold: initialGold,
-    }));
-  }
+    const initialWeapon = WEAPONS[roll(WEAPONS.length)].toLowerCase();
 
-  function setInitialWeapons() {
-    const weapon = WEAPONS[roll(WEAPONS.length)].toLowerCase();
-    setCharacterSheet((prev) => ({
-      ...prev,
-      weapons: [weapon],
-    }));
+    setCharacterSheet({
+      ...DEFAULT_SHEET,
+      cs: initialCS,
+      csMax: initialCS,
+      ep: initialEP,
+      epMax: initialEP,
+      gold: initialGold,
+      weapons: [
+        {
+          id: Date.now(),
+          name: initialWeapon.toLowerCase(),
+          isEquipped: false,
+          csMod: 0,
+        },
+      ],
+    });
+
+    setEnemy({ cs: 0, ep: 0, immuneToPsicolaser: false });
+    setCombatResult(null);
+    setCombatLog([]);
+    setAlterCS(0);
   }
 
   // ===== UTILS =====
@@ -101,24 +92,19 @@ function App() {
   }
 
   function rollDice(max = 10) {
-    setRollDiceValue("rolling");
+    setRollDiceValue(null);
+    setRollState("rolling");
 
     setTimeout(() => {
       const rollValue = Math.floor(Math.random() * max);
       setRollDiceValue(rollValue);
+      setRollState("done");
     }, 3000);
 
     setTimeout(() => {
       setRollDiceValue(null);
+      setRollState("idle");
     }, 5000);
-  }
-
-  function resetGame() {
-    localStorage.removeItem("lw_characterSheet");
-    setCharacterSheet(DEFAULT_SHEET);
-    setEnemy({ cs: 0, ep: 0, immuneToPsicolaser: false });
-    setCombatResult(null);
-    setCombatLog([]);
   }
 
   function changeValue(field, delta, min, max) {
@@ -161,9 +147,16 @@ function App() {
     setCharacterSheet((prev) => {
       if (prev.weapons.length >= 2) return prev; // Max 2 weapons
 
+      const newWeapon = {
+        id: Date.now(),
+        name: weapon.trim().toLowerCase(),
+        isEquipped: false,
+        csMod: 0,
+      };
+
       return {
         ...prev,
-        weapons: [...prev.weapons, weapon.trim().toLowerCase()],
+        weapons: [...prev.weapons, newWeapon],
       };
     });
   }
@@ -172,9 +165,27 @@ function App() {
     setCharacterSheet((prev) => {
       return {
         ...prev,
-        weapons: prev.weapons.filter((w) => w !== weapon),
+        weapons: prev.weapons.filter((w) => w.id !== weapon.id),
       };
     });
+  }
+
+  function toggleWeapon(id) {
+    setCharacterSheet((prev) => ({
+      ...prev,
+      weapons: prev.weapons.map((w) =>
+        w.id === id ? { ...w, isEquipped: !w.isEquipped } : w
+      ),
+    }));
+  }
+
+  function updateWeaponModifier(id, mod) {
+    setCharacterSheet((prev) => ({
+      ...prev,
+      weapons: prev.weapons.map((w) =>
+        w.id === id ? { ...w, csMod: mod } : w
+      ),
+    }));
   }
 
   function addBackpackItem(item) {
@@ -182,9 +193,14 @@ function App() {
       if (!item) return prev; // Avoid empty items
       if (prev.backpack.length >= 8) return prev; // Max 8 items
 
+      const newItem = {
+        id: Date.now(),
+        name: item.trim().toLowerCase(),
+      };
+
       return {
         ...prev,
-        backpack: [...prev.backpack, item],
+        backpack: [...prev.backpack, newItem],
       };
     });
   }
@@ -193,28 +209,30 @@ function App() {
     setCharacterSheet((prev) => {
       return {
         ...prev,
-        backpack: prev.backpack.filter((i) => i !== item),
+        backpack: prev.backpack.filter((i) => i.id !== item.id),
       };
     });
   }
 
-  function addSpecialItem(item) {
+  function addSpecialItem(specialItem) {
     setCharacterSheet((prev) => {
-      if (!item) return prev; // Avoid empty items
-      if (prev.specialItems.includes(item)) return prev; // Avoid duplicates
+      const newSpecialItem = {
+        id: Date.now(),
+        name: specialItem.trim().toLowerCase(),
+      };
 
       return {
         ...prev,
-        specialItems: [...prev.specialItems, item],
+        specialItems: [...prev.specialItems, newSpecialItem],
       };
     });
   }
 
-  function removeSpecialItem(item) {
+  function removeSpecialItem(specialItem) {
     setCharacterSheet((prev) => {
       return {
         ...prev,
-        specialItems: prev.specialItems.filter((i) => i !== item),
+        specialItems: prev.specialItems.filter((i) => i.id !== specialItem.id),
       };
     });
   }
@@ -270,42 +288,56 @@ function App() {
     return 12;
   }
 
-  function modifierCombat(characterSheet, enemy) {
-    let modifierPsicolaser = 0;
-    let modifierScherma = 0;
-    let modifierUnarmed = 0;
+  // Get psicolaser, scherma, unarmed
+  function getDisciplineModifiers(characterSheet, enemy) {
+    let psicolaser = 0;
+    let scherma = 0;
+    let unarmed = 0;
     // Psicolaser
     if (
       characterSheet.disciplines.includes("Psicolaser") &&
       !enemy.immuneToPsicolaser
     ) {
-      modifierPsicolaser = 2;
+      psicolaser = 2;
     }
     // Scherma
     if (
       characterSheet.disciplines.includes("Scherma") &&
-      characterSheet.schermaWeapon &&
-      characterSheet.weapons.includes(characterSheet.schermaWeapon)
+      characterSheet.weapons.some(
+        (w) => w.name === characterSheet.schermaWeapon && w.isEquipped
+      )
     ) {
-      modifierScherma = 2;
+      scherma = 2;
     }
     // Unarmed
-    if (characterSheet.weapons.length === 0) {
-      modifierUnarmed = -4;
+    const hasWeaponEquipped = characterSheet.weapons.some((w) => w.isEquipped);
+    if (!hasWeaponEquipped) {
+      unarmed = -4;
     }
-
-    return { modifierPsicolaser, modifierScherma, modifierUnarmed };
+    return { psicolaser, scherma, unarmed };
   }
 
-  const { modifierPsicolaser, modifierScherma, modifierUnarmed } =
-    modifierCombat(characterSheet, enemy);
-  const modifiers = modifierPsicolaser + modifierScherma + modifierUnarmed;
-  const modifiedPlayerCS = characterSheet.cs + modifiers;
-  const isCombatOver =
-    characterSheet.ep <= 0 ||
-    enemy.ep <= 0 ||
-    (combatResult &&
-      (combatResult.playerDamage === "K" || combatResult.enemyDamage === "K"));
+  // Get bonus arma equipaggiata
+  function getEquippedWeaponBonus(weapons) {
+    return weapons
+      .filter((w) => w.isEquipped)
+      .reduce((sum, w) => sum + (w.csMod || 0), 0);
+  }
+
+  // Totale di tutti i modificatori da sommare al Player CS
+  const weaponBonus = getEquippedWeaponBonus(characterSheet.weapons);
+  const disciplineModifiers = getDisciplineModifiers(characterSheet, enemy);
+  const combatModifiers = {
+    psicolaser: disciplineModifiers.psicolaser,
+    scherma: disciplineModifiers.scherma,
+    disarmato: disciplineModifiers.unarmed,
+    armi: weaponBonus,
+  };
+  const totalModifiers = Object.values(combatModifiers).reduce(
+    (sum, v) => sum + v,
+    0
+  );
+  const playerCombatCS = characterSheet.cs + totalModifiers;
 
   function resolveCombat({ playerCS, enemyCS, playerEP, enemyEP }) {
     const ratio = playerCS - enemyCS;
@@ -333,7 +365,7 @@ function App() {
 
   function handleCombat() {
     const result = resolveCombat({
-      playerCS: modifiedPlayerCS,
+      playerCS: playerCombatCS + alterCS,
       enemyCS: enemy.cs,
       playerEP: characterSheet.ep,
       enemyEP: enemy.ep,
@@ -349,12 +381,11 @@ function App() {
         // CS dettagliata
         playerCSBase: characterSheet.cs,
         playerCSModifiers: modifiers,
-        playerCSTotal: modifiedPlayerCS,
-
+        playerCSTotal: playerCombatCS,
         enemyCS: enemy.cs,
 
         // rapporto reale
-        ratio: modifiedPlayerCS - enemy.cs,
+        ratio: playerCombatCS - enemy.cs + alterCS,
 
         // EP prima / dopo
         playerEPBefore: characterSheet.ep,
@@ -378,6 +409,17 @@ function App() {
     setCombatResult(result);
   }
 
+  // Verifica se il combattimento è terminato
+  const isCombatOver = isEndOfCombat(characterSheet, enemy, combatResult);
+  function isEndOfCombat(characterSheet, enemy, combatResult) {
+    if (characterSheet.ep <= 0) return true;
+    if (enemy.ep <= 0) return true;
+    if (!combatResult) return false;
+    return (
+      combatResult.playerDamage === "K" || combatResult.enemyDamage === "K"
+    );
+  }
+
   function resetCombat() {
     setEnemy({
       cs: 0,
@@ -386,6 +428,7 @@ function App() {
     });
     setCombatLog([]);
     setCombatResult(null);
+    setAlterCS(0);
   }
 
   return (
@@ -405,6 +448,7 @@ function App() {
               segnalibro={segnalibro}
               rollDice={rollDice}
               rollDiceValue={rollDiceValue}
+              rollState={rollState}
             />
             <DisciplinesSheet
               characterSheet={characterSheet}
@@ -417,6 +461,8 @@ function App() {
               setWeaponInput={setWeaponInput}
               addWeapon={addWeapon}
               removeWeapon={removeWeapon}
+              toggleWeapon={toggleWeapon}
+              updateWeaponModifier={updateWeaponModifier}
             />
 
             <BackpackSheet
@@ -439,7 +485,6 @@ function App() {
         {activeSheet === "combat_sheet" && (
           <>
             <CombatSheet
-              setCombatLog={setCombatLog}
               characterSheet={characterSheet}
               enemy={enemy}
               setEnemy={setEnemy}
@@ -447,11 +492,14 @@ function App() {
               isCombatOver={isCombatOver}
               combatResult={combatResult}
               combatLog={combatLog}
-              modifiedPlayerCS={modifiedPlayerCS}
-              modifiers={modifiers}
-              modifierPsicolaser={modifierPsicolaser}
-              modifierScherma={modifierScherma}
-              modifierUnarmed={modifierUnarmed}
+              weaponBonus={weaponBonus}
+              alterCS={alterCS}
+              setAlterCS={setAlterCS}
+              playerCombatCS={playerCombatCS}
+              totalModifiers={totalModifiers}
+              psicolaser={disciplineModifiers.psicolaser}
+              scherma={disciplineModifiers.scherma}
+              unarmed={disciplineModifiers.unarmed}
             />
           </>
         )}

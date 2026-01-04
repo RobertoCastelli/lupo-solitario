@@ -1,4 +1,4 @@
-import { GiCrossedSwords, GiScrollQuill } from "react-icons/gi";
+import { GiCrossedSwords, GiScrollQuill, GiRollingDices } from "react-icons/gi";
 
 const Header = ({ startAdventure, activeSheet, setActiveSheet }) => {
   return (
@@ -8,7 +8,10 @@ const Header = ({ startAdventure, activeSheet, setActiveSheet }) => {
         <small>scheda per lupo solitario libro 1-5</small>
       </div>
       <button className="btn-nuova-avventura" onClick={startAdventure}>
-        nuova avventura
+        <div>nuova avventura</div>
+        <div>
+          <GiRollingDices className="icon" size={20} />
+        </div>
       </button>
       <div className="header-btn-group">
         <button

@@ -1,7 +1,7 @@
 /* ===== BASE ===== */
 button {
   font-family: "Cinzel", serif;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   border-radius: 0.3rem;
   background: var(--paper-main);
   color: var(--ink-main);
@@ -10,6 +10,8 @@ button {
   user-select: none;
   margin: 0.1rem;
   width:max-content;
+display: inline-block;
+align-items: center;
 }
 
 button:not(:disabled) {
@@ -20,7 +22,6 @@ button:not(:disabled) {
 button:hover:not(:disabled) {
   background: var(--paper-hover);
 }
-
 
 /* ===== ACTIVE / PRESS ===== */
 button:active:not(:disabled) {
@@ -36,25 +37,29 @@ button:disabled {
   cursor: not-allowed;
 }
 
+.btn-nuova-avventura {
+  width: min-content;
+  height: 63px;
+}
+
 .btn-combat-sheet {
   color: var(--combat-border);
   border: 1px solid var(--combat-border);
 }
+
+.btn-char-sheet, 
+.btn-combat-sheet {
+  width: 80px;
+  height: 30px;
+}
+
 .btn-combat-sheet:hover:not(:disabled){
   background-color: var(--combat-bg) !important;
 }
-.borsa-dadi button {
-  width: 35%;
-}
+
 .btn-group-change-value button {
-  padding: 0 12px;
-}
-.btn-nuova-avventura {
-  width: min-content;
-}
-.btn-char-sheet, .btn-combat-sheet {
-  width: 80px;
-  height: 30px;
+  padding: 0 10px;
+  max-height: 18px;
 }
 
 @keyframes lines {
@@ -69,7 +74,7 @@ button:disabled {
   100% { content: "_"; }   /* chiude il cerchio */
 }
 
-.dice-loading::after {
+.dice-rolling::after {
   content: "_";
   animation: lines 0.8s steps(1, end) infinite;
 }

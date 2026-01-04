@@ -27,14 +27,20 @@ const BackpackSheet = ({
             setBackpackInput("");
           }}
         >
-          Add
+          add
         </button>
       </div>
+
+      <div className="input-row">
+        <p>nome</p>
+        <p>del</p>
+      </div>
+
       <ul>
-        {characterSheet.backpack.map((object, i) => (
-          <li key={i}>
-            {object}
-            <button onClick={() => removeBackpackItem(object)}>x</button>
+        {characterSheet.backpack.map((item) => (
+          <li key={item.id}>
+            {item.name}
+            <button onClick={() => removeBackpackItem(item)}>x</button>
           </li>
         ))}
       </ul>

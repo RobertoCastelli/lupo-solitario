@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 /* ===== ROOT ===== */
 :root {
@@ -32,35 +33,6 @@ body {
   height: 100%;
 }
 
-/* ===== LAYOUT ===== */
-.container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.content {
-  display: grid;
-  grid-template-columns: 1 / -1;
-  gap: 0.3rem;
-  grid-template-areas: 
-  "scheda borsa"
-  "discipline zaino"
-  "armamento oggetti-speciali"
-  "combattimento combattimento";
-  margin-top: 0.5rem;
-}
-
-.scheda { grid-area: scheda; }
-.discipline { grid-area: discipline; }
-.zaino { grid-area: zaino; }
-.armamento { grid-area: armamento; }
-.oggetti-speciali { grid-area: oggetti-speciali; }
-.combattimento { grid-area: combattimento; }
-.borsa {grid-area: borsa;}
-
 header {
   display: flex;
   justify-content: space-around;
@@ -72,28 +44,30 @@ header {
   align-items: center;
 }
 
-h2 {
-  display: flex;
-  text-align: center;
-  align-items: center;
-}
-
 h3 {
   border-bottom: 1px solid var(--border-accent);
   margin-bottom: 0.3rem;
   margin-top: 0;
 }
 
-label {
-  font-weight: bold;
+h2 {
+  display: flex;
+  text-align: center;
+  align-items: center;
 }
 
-.icon {
-  vertical-align: middle;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  vertical-align: middle;
+p {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  color: var(--ink-main);
+  margin-bottom: 0;
+  font-style: italic;
+}
+
+
+label {
+  font-weight: bold;
 }
 
 footer {
@@ -102,40 +76,8 @@ footer {
   text-align: center;
 }
 
-.scheda-cs-ep {
-  display: flex;
-  justify-content: space-evenly;
-  margin: 1rem;
-  align-items: center;
-}
-.scheda-cs-ep span, 
-.borsa-oro span, 
-.borsa-pasti span{
-  font-weight: bold;
-  padding: 0.1rem 0.5rem;
-  border-radius: 0.2rem;
-  pointer-events: none;
-  border: none;
-  border-bottom: 1px solid var(--border-accent);
-  background-color: var(--paper-main);
-}
-.scheda-utility {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.scheda-segnalibro {
-  width: 50%;
-}
-
-.borsa-pasti,.borsa-oro, .borsa-dadi {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.discipline label {
-  display: flex;
-  align-items: center;
+.icon {
+  vertical-align: middle;
+  margin: 0.3rem;
 }
 

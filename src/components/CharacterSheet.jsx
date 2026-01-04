@@ -5,6 +5,7 @@ const CharacterSheet = ({
   segnalibro,
   rollDice,
   rollDiceValue,
+  rollState,
 }) => {
   return (
     <>
@@ -12,14 +13,42 @@ const CharacterSheet = ({
         <h3>status</h3>
 
         <div className="scheda-cs-ep">
-          <div>
-            <label>CS: </label>
-            <span>{characterSheet.cs}</span>
+          <div className="scheda-cs">
+            <div>
+              <label>CS: </label>
+              <span>{characterSheet.cs}</span>{" "}
+            </div>
+            <div className="btn-group-change-value">
+              <button
+                onClick={() => changeValue("cs", -1, 0, characterSheet.csMax)}
+              >
+                -
+              </button>
+              <button
+                onClick={() => changeValue("cs", 1, 0, characterSheet.csMax)}
+              >
+                +
+              </button>
+            </div>
           </div>
 
-          <div>
-            <label>EP: </label>
-            <span>{characterSheet.ep}</span> / {characterSheet.epMax}
+          <div className="scheda-ep">
+            <div>
+              <label>EP: </label>
+              <span>{characterSheet.ep}</span> / {characterSheet.epMax}{" "}
+            </div>
+            <div className="btn-group-change-value">
+              <button
+                onClick={() => changeValue("ep", -1, 0, characterSheet.epMax)}
+              >
+                -
+              </button>
+              <button
+                onClick={() => changeValue("ep", 1, 0, characterSheet.epMax)}
+              >
+                +
+              </button>
+            </div>
           </div>
         </div>
 
@@ -33,7 +62,8 @@ const CharacterSheet = ({
               onFocus={(e) => e.target.select()}
             />
           </div>
-          <div className="btn-mangia-pasto">
+
+          <div className="btn-group-change-value">
             <button
               onClick={eatMeal}
               disabled={
@@ -42,7 +72,7 @@ const CharacterSheet = ({
                 characterSheet.ep <= 0
               }
             >
-              mangia
+              🥪
             </button>
           </div>
         </div>
@@ -53,38 +83,39 @@ const CharacterSheet = ({
 
         <div className="borsa-oro">
           <div>
-            <label>corone: </label>
+            <label>oro: </label>
             <span>{characterSheet.gold}</span> / 50{" "}
           </div>
-          <div>
-            <div className="btn-group-change-value">
-              <button onClick={() => changeValue("gold", -1, 0, 50)}>-</button>
-              <button onClick={() => changeValue("gold", 1, 0, 50)}>+</button>
-            </div>
+
+          <div className="btn-group-change-value">
+            <button onClick={() => changeValue("gold", -1, 0, 50)}>-</button>
+            <button onClick={() => changeValue("gold", 1, 0, 50)}>+</button>
           </div>
         </div>
+
         <div className="borsa-pasti">
           <div>
             <label>pasti: </label>
             <span>{characterSheet.meals}</span> / 3{" "}
           </div>
-          <div>
-            <div className="btn-group-change-value">
-              <button onClick={() => changeValue("meals", -1, 0, 3)}>-</button>
-              <button onClick={() => changeValue("meals", 1, 0, 3)}>+</button>
-            </div>
+
+          <div className="btn-group-change-value">
+            <button onClick={() => changeValue("meals", -1, 0, 3)}>-</button>
+            <button onClick={() => changeValue("meals", 1, 0, 3)}>+</button>
           </div>
         </div>
 
         <div className="borsa-dadi">
           <div>
-            {rollDiceValue === "rolling" && (
-              <span className="dice-loading"></span>
-            )}
-            {typeof rollDiceValue === "number" && rollDiceValue}
-            {rollDiceValue === null && "???"}
+            <label>esito: </label>
+            {rollState === "rolling" && <span className="dice-rolling"></span>}
+            {rollState === "idle" && <span>/</span>}
+            {rollState === "done" && <span>{rollDiceValue}</span>}
           </div>
-          <button onClick={() => rollDice(10)}>🎲</button>
+
+          <div className="btn-group-change-value">
+            <button onClick={() => rollDice(10)}>🎲</button>
+          </div>
         </div>
       </section>
     </>

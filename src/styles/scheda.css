@@ -1,0 +1,66 @@
+/* ===== LAYOUT ===== */
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1 / -1;
+  gap: 0.3rem;
+  grid-template-areas: 
+  "scheda borsa"
+  "discipline zaino"
+  "armamento oggetti-speciali"
+  "combattimento combattimento";
+  margin-top: 0.5rem;
+}
+
+.scheda { grid-area: scheda; }
+.discipline { grid-area: discipline; }
+.zaino { grid-area: zaino; }
+.armamento { grid-area: armamento; }
+.oggetti-speciali { grid-area: oggetti-speciali; }
+.combattimento { grid-area: combattimento; }
+.borsa {grid-area: borsa;}
+
+/* ===== SPAN ==== */
+.scheda-cs span,
+.scheda-ep span, 
+.borsa-oro span, 
+.borsa-dadi span,
+.borsa-pasti span{
+    font-weight: bold;
+    padding: 0.1rem 0.5rem;
+    border-radius: 0.2rem;
+    pointer-events: none;
+    border: none;
+    border-bottom: 1px solid var(--border-accent);
+    background-color: var(--paper-main);
+}
+
+.scheda-segnalibro {
+    width: 50%;
+}
+
+.scheda-cs,
+.scheda-ep,
+.scheda-utility,
+.borsa-pasti,
+.borsa-oro, 
+.borsa-dadi {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.discipline label {
+  display: flex;
+  align-items: center;
+}
+
+
+
