@@ -1,5 +1,7 @@
 # 🐺 Registro di Guerra – Lupo Solitario
 
+o[![Netlify Status](https://api.netlify.com/api/v1/badges/41181a45-abce-4127-a1c1-8d7d2dd17d75/deploy-status)](https://app.netlify.com/projects/to-lonewolf/deploys)
+
 Registro di Guerra digitale per i **librogame di Lupo Solitario (Libri 1–5)**.  
 Un semplice strumento web per gestire **scheda del personaggio** e **combattimenti**, mantenendo **fedeltà alle regole originali** e allo spirito del gioco cartaceo.
 
@@ -21,6 +23,7 @@ Non è un videogioco, ma **un supporto alla lettura e al gioco**.
 ## 🧩 Funzionalità principali
 
 - 📜 **Scheda personaggio**
+
   - Combattività (CS)
   - Resistenza (EP)
   - Corone d’oro
@@ -29,19 +32,22 @@ Non è un videogioco, ma **un supporto alla lettura e al gioco**.
   - Tiro di dado (Random Number Table 0–9)
 
 - 🧠 **Discipline Kai**
+
   - Selezione fino a 5 discipline
-  - Gestione speciale della *Scherma*
+  - Gestione speciale della _Scherma_
 
 - 🎒 **Inventario**
+
   - Zaino (max 8 oggetti)
   - Oggetti speciali (illimitati)
   - Armi (max 2)
 
 - ⚔️ **Combattimento**
+
   - Calcolo automatico del Rapporto di Forza
   - Applicazione dei modificatori (Psicolaser, Scherma, Disarmato)
   - Risultati conformi alla tabella originale
-  - **Combat log** stile *diario di guerra*
+  - **Combat log** stile _diario di guerra_
   - Evidenziazione dell’ultimo turno
 
 - 💾 **Salvataggio automatico**
@@ -91,3 +97,4 @@ Se sei un titolare dei diritti e ritieni che questo progetto violi in qualche mo
 ```bash
 npm install
 npm run dev
+```
