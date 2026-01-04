@@ -98,7 +98,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  
 
   /* fade bordi */
   -webkit-mask-image: linear-gradient(
@@ -176,9 +175,6 @@
     opacity: 1;
   }
 }
-
-
-
 
 /* =========================================================
    BARRE EP
