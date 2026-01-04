@@ -54,16 +54,16 @@ const CharacterSheet = ({
 
         <div className="scheda-utility">
           <div>
-            <label>pag: </label>
+            <label>pg: </label>
             <input
               type="number"
-              placeholder="segnalibro"
+              placeholder="pagina"
               value={characterSheet.segnalibro}
               onChange={(e) => segnalibro(e.target.value)}
               onFocus={(e) => e.target.select()}
             />
           </div>
-          <div className="btn-group-change-value">
+          {/*   <div className="btn-group-change-value">
             <button
               onClick={eatMeal}
               disabled={
@@ -74,7 +74,7 @@ const CharacterSheet = ({
             >
               🥪
             </button>
-          </div>
+          </div> */}
         </div>
       </section>
 
