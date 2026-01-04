@@ -1,16 +1,24 @@
 import { useEffect, useState } from "react";
+// Styles
 import "./styles/app.css";
 import "./styles/buttons.css";
 import "./styles/inputs.css";
 import "./styles/sections.css";
 import "./styles/combat.css";
 import "./styles/scheda.css";
+// Sounds
+import clash from "./sounds/clash.mp3";
+import punch from "./sounds/punch.mp3";
+import slash from "./sounds/slash.mp3";
+import death from "./sounds/death.mp3";
+// Constants
 import {
   DEFAULT_SHEET,
   KAI_DISCIPLINES,
   WEAPONS,
   COMBAT_TABLE,
 } from "./data/constants";
+// Components
 import Header from "./components/Header";
 import CombatSheet from "./components/CombatSheet";
 import CharacterSheet from "./components/CharacterSheet";
@@ -86,6 +94,12 @@ function App() {
   }
 
   // ===== UTILS =====
+
+  function playRandomSound(sounds) {
+    const sound = sounds[Math.floor(Math.random() * sounds.length)];
+    const audio = new Audio(sound);
+    audio.play();
+  }
 
   function roll(max = 10) {
     return Math.floor(Math.random() * max);
@@ -396,6 +410,21 @@ function App() {
       ...prev,
       ep: result.updateEnemyEP,
     }));
+
+    const HIT_SOUNDS = [punch, slash];
+    const CLASH_SOUNDS = [clash];
+    const DEATH_SOUNDS = [death];
+
+    const playerDied = result.updatePlayerEP === 0;
+    const enemyDied = result.updateEnemyEP === 0;
+
+    if (playerDied || enemyDied) {
+      playRandomSound(DEATH_SOUNDS);
+    } else if (result.playerDamage > 0) {
+      playRandomSound(HIT_SOUNDS);
+    } else {
+      playRandomSound(CLASH_SOUNDS);
+    }
 
     setCombatResult(result);
   }

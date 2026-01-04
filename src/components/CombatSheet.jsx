@@ -107,7 +107,7 @@ const CombatSheet = ({
           </div>
 
           <div className="combat-psicolaser">
-            <div>immune allo psicolaser: </div>
+            <div>immune psicolaser: </div>
             <input
               type="checkbox"
               checked={enemy.immuneToPsicolaser}

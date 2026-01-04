@@ -1,6 +1,6 @@
 # 🐺 Registro di Guerra – Lupo Solitario
 
-o[![Netlify Status](https://api.netlify.com/api/v1/badges/41181a45-abce-4127-a1c1-8d7d2dd17d75/deploy-status)](https://app.netlify.com/projects/to-lonewolf/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/41181a45-abce-4127-a1c1-8d7d2dd17d75/deploy-status)](https://app.netlify.com/projects/to-lonewolf/deploys)
 
 Registro di Guerra digitale per i **librogame di Lupo Solitario (Libri 1–5)**.  
 Un semplice strumento web per gestire **scheda del personaggio** e **combattimenti**, mantenendo **fedeltà alle regole originali** e allo spirito del gioco cartaceo.

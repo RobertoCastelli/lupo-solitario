@@ -65,15 +65,36 @@ p {
   font-style: italic;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
 
 label {
   font-weight: bold;
 }
 
 footer {
-  display: grid;
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-size: smaller;
+  color: var(--ink-main);
+  margin-bottom: 0;
   margin-top: auto;
   text-align: center;
+}
+footer ul{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+footer li {
+  margin: 0.5rem;
+  cursor: pointer;
+  opacity: 0.6;
+}
+footer li:hover {
+  opacity: 1;
 }
 
 .icon {

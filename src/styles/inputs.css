@@ -18,7 +18,7 @@ input::placeholder {
   font-family: montserrat;
   color: var(--text-disabled);
   font-style: italic;
-  font-size: 0.7rem;
+  font-size: smaller;
   text-transform: capitalize;
 }
 

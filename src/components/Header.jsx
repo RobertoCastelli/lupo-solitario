@@ -5,7 +5,9 @@ const Header = ({ startAdventure, activeSheet, setActiveSheet }) => {
     <header>
       <div className="header-title-group">
         <h2>registro di guerra</h2>
-        <small>scheda per lupo solitario libro 1-5</small>
+        <p>
+          <small>scheda per lupo solitario libro 1-5</small>
+        </p>
       </div>
       <button className="btn-nuova-avventura" onClick={startAdventure}>
         <div>nuova avventura</div>
