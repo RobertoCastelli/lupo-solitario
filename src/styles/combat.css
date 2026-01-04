@@ -158,6 +158,27 @@
   text-align: right;
 }
 
+.combat-log li:last-child {
+  animation: hitPulse 160ms ease-out;
+}
+
+@keyframes hitPulse {
+  0% {
+    transform: translateX(0);
+    opacity: 0.6;
+  }
+  40% {
+    transform: translateX(2px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+
+
 
 /* =========================================================
    BARRE EP

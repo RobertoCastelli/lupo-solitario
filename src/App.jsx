@@ -378,15 +378,6 @@ function App() {
         roll: result.rollValue,
         round: prev.length + 1,
 
-        // CS dettagliata
-        playerCSBase: characterSheet.cs,
-        playerCSModifiers: modifiers,
-        playerCSTotal: playerCombatCS,
-        enemyCS: enemy.cs,
-
-        // rapporto reale
-        ratio: playerCombatCS - enemy.cs + alterCS,
-
         // EP prima / dopo
         playerEPBefore: characterSheet.ep,
         playerEPAfter: result.updatePlayerEP,
