@@ -42,8 +42,8 @@
     background-color: var(--paper-main);
 }
 
-.scheda-segnalibro {
-    width: 50%;
+.scheda-utility input {
+    width: 60%;
 }
 
 .scheda-cs,

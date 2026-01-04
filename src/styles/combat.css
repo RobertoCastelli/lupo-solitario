@@ -12,6 +12,7 @@
   "modifiers ratio psicolaser"
     "log log log";
 }
+
 .lw-stats        { grid-area: lw-stats; }
 .nemico-stats    { grid-area: nemico-stats; }
 .combat-ratio    { grid-area: ratio; }
@@ -98,6 +99,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 0;
 
   /* fade bordi */
   -webkit-mask-image: linear-gradient(

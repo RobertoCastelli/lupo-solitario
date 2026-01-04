@@ -57,8 +57,8 @@ function App() {
   function startAdventure() {
     localStorage.removeItem("lw_characterSheet");
 
-    const initialCS = roll(10) + 11;
-    const initialEP = roll(10) + 21;
+    const initialCS = roll(10) + 10;
+    const initialEP = roll(10) + 20;
     const initialGold = roll(10);
     const initialWeapon = WEAPONS[roll(WEAPONS.length)].toLowerCase();
 
